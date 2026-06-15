@@ -39,9 +39,8 @@ Marketing & lead-generation website for **ForwardWeb** — web design, developme
 3. Set the domain to `forwardweb.ca` and enable SSL.
 
 ## TODO before launch
-- [ ] Replace contact form `REPLACE_FORM_ID` with a real Formspree (or alternative) endpoint.
-- [ ] Replace placeholder phone `+19055550000` / `(905) 000-0000` with the real number.
-- [ ] Confirm contact email (`hello@forwardweb.ca`).
+- [x] Real phone `(647) 909-4565` and email `info@forwardweb.ca` wired in.
+- [ ] Contact form intentionally deferred — page uses direct email/call CTAs for now. Drop in a free form backend (Formspree / Web3Forms) later; replace the direct-contact card in `contact/index.html` with a `<form>`.
 - [ ] Add real OG share image at `/assets/img/og.jpg` (1200×630).
 - [ ] Create & verify the Google Business Profile for local ranking.
 - [ ] Swap representative portfolio cards for real projects as they ship.
