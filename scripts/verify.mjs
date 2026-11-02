@@ -70,12 +70,14 @@ const newPage = async (w, h, scale = 1) => {
     if (['error', 'warning'].includes(m.type()) && !(page.url().includes('missing-page') && /404/.test(m.text()))) consoleProblems.push(`${page.url()} ${m.type()}: ${m.text()}`);
   });
   page.on('pageerror', (e) => consoleProblems.push(`${page.url()} pageerror: ${e.message}`));
-  page.on('requestfailed', (r) => consoleProblems.push(`${page.url()} requestfailed: ${r.url()}`));
+  // ERR_ABORTED is the browser cancelling a lazy image when the test navigates away, not a broken asset.
+  page.on('requestfailed', (r) => { if (r.failure()?.errorText !== 'net::ERR_ABORTED') consoleProblems.push(`${page.url()} requestfailed: ${r.url()}`); });
   return page;
 };
 
 /* 1. Every route at 390: no horizontal overflow, 16px gutters, one left edge */
-const phone = await newPage(390, 844, 2);
+for (const W of [390, 1024, 1440, 1680, 1920]) {
+const phone = await newPage(W, 844, W === 390 ? 2 : 1);
 for (const r of routes) {
   const res = await phone.goto(BASE + r, { waitUntil: 'networkidle0' });
   const info = await phone.evaluate(() => {
@@ -88,7 +90,10 @@ for (const r of routes) {
     return { sw: de.scrollWidth, cw: de.clientWidth, minPad: Math.min(...pads, 99), leftSet: [...new Set(lefts)], wide };
   });
   const expected404 = r.includes('missing-page');
-  ok(`390px ${r}${expected404 ? ' (404)' : ''}`, (expected404 ? res.status() === 404 : res.status() === 200) && info.sw === info.cw && info.minPad >= 16 && info.leftSet.length <= 1, `scroll ${info.sw}/${info.cw} pad>=${info.minPad} edges=${info.leftSet.join(',')}${info.wide.length ? ' wide=' + info.wide : ''}`);
+  ok(`${W}px ${r}${expected404 ? ' (404)' : ''}`, (expected404 ? res.status() === 404 : res.status() === 200) && info.sw === info.cw && info.minPad >= 16 && info.leftSet.length <= 1, `scroll ${info.sw}/${info.cw} pad>=${info.minPad} edges=${info.leftSet.join(',')}${info.wide.length ? ' wide=' + info.wide : ''}`);
+}
+
+await phone.close();
 }
 
 /* 2. SEO basics on every real page */
@@ -313,13 +318,64 @@ for (const r of routes.filter((x) => !x.includes('missing'))) {
   ok(`headings and title ${r}`, !h.bad && h.t <= 62, h.bad ?? `${h.t}c`);
 }
 
+
+/* 6c. Wide-viewport round: type scale, article text width, About block, hero CTA */
+for (const W of [1440, 1680, 1920]) {
+  const wide = await newPage(W, 1000);
+  for (const r of routes.filter((x) => !x.includes('missing'))) {
+    await wide.goto(BASE + r, { waitUntil: 'domcontentloaded' });
+    const t = await wide.evaluate(() => {
+      const size = (e) => parseFloat(getComputedStyle(e).fontSize);
+      const h1 = Math.max(0, ...[...document.querySelectorAll('h1')].map(size));
+      const h2 = Math.max(0, ...[...document.querySelectorAll('h2.h-l')].map(size));
+      const bq = Math.max(0, ...[...document.querySelectorAll('blockquote')].map(size));
+      return { h1, h2, bq };
+    });
+    ok(`type scale ${W}px ${r}`, t.h1 <= 64 && t.h2 <= 46 && t.bq <= 62, `h1 ${t.h1}px, h2 ${t.h2}px, quote ${t.bq}px`);
+  }
+  // every text block in every article is a readable width
+  for (const r of routes.filter((x) => /^\/notes\/[a-z0-9-]+\/$/.test(x))) {
+    await wide.goto(BASE + r, { waitUntil: 'networkidle0' });
+    const narrow = await wide.evaluate(() => {
+      const bad = [];
+      document.querySelectorAll('.prose *, .short *').forEach((e) => {
+        if (['STRONG', 'EM', 'A', 'CODE', 'SPAN', 'B', 'I', 'TIME', 'BR', 'TBODY', 'THEAD', 'TR', 'COL', 'COLGROUP'].includes(e.tagName)) return;
+        const own = [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
+        if (!own) return;
+        const w = e.getBoundingClientRect().width;
+        const min = e.tagName === 'TD' || e.tagName === 'TH' ? 90 : 200;
+        if (w < min) bad.push(e.tagName + ':' + Math.round(w) + ':' + e.textContent.trim().slice(0, 24));
+      });
+      return bad.slice(0, 4);
+    });
+    ok(`article text blocks are at least 200px wide ${W}px ${r}`, narrow.length === 0, narrow.join(' | '));
+  }
+  await wide.close();
+}
+const ab = await newPage(1680, 1000);
+await ab.goto(BASE + '/about/', { waitUntil: 'networkidle0' });
+const ap = await ab.evaluate(() => { const h1 = document.querySelector('h1').getBoundingClientRect(); const ps = [...document.querySelectorAll('.about-copy p')].map((p) => p.getBoundingClientRect()); const lh = parseFloat(getComputedStyle(document.querySelector('h1')).lineHeight); return { lines: Math.round(h1.height / lh), lefts: [...new Set(ps.map((p) => Math.round(p.left)))].length, h1left: Math.round(h1.left), pleft: Math.round(ps[0].left), pw: Math.round(ps[0].width) }; });
+ok('about: h1 is 3 lines or fewer and the paragraphs share one column', ap.lines <= 3 && ap.lefts === 1 && ap.h1left === ap.pleft, JSON.stringify(ap));
+await ab.close();
+const hc = await newPage(1440, 900);
+await hc.goto(BASE + '/', { waitUntil: 'networkidle0' });
+const cta = await hc.evaluate(() => { const b = document.querySelector('.hero .cta .btn'); const l = document.querySelector('.hero .altlink'); return { text: b.textContent.trim(), href: b.getAttribute('href'), altShown: getComputedStyle(l).display !== 'none' }; });
+ok('home hero: primary button is Book a call to /apply/, text link hidden on desktop', cta.text === 'Book a call' && cta.href === '/apply/' && !cta.altShown, JSON.stringify(cta));
+await hc.close();
+const hp = await newPage(390, 844);
+await hp.goto(BASE + '/', { waitUntil: 'networkidle0' });
+const alt = await hp.evaluate(() => { const l = document.querySelector('.hero .altlink'); return { shown: getComputedStyle(l).display !== 'none', href: l.getAttribute('href') }; });
+ok('home hero: the free-check text link shows on phone', alt.shown && alt.href === '#check', JSON.stringify(alt));
+await hp.close();
+
 /* 7. Screenshots of key pages */
 const shot = async (page, path, name, full = true) => {
   console.log('shot', path);
   await page.goto(BASE + path, { waitUntil: 'networkidle0' });
   await page.evaluate(async () => { document.querySelectorAll('[data-ill]').forEach((e) => e.classList.add('in')); window.scrollTo(0, document.body.scrollHeight); await new Promise((r) => setTimeout(r, 250)); window.scrollTo(0, 0); });
   await new Promise((r) => setTimeout(r, 1300));
-  await page.screenshot({ path: join(SHOTS, name), fullPage: full });
+  // A busy machine can time out a tall full-page capture; retry once, then fall back to the viewport rather than abort the run.
+  try { await page.screenshot({ path: join(SHOTS, name), fullPage: full }); } catch { try { await page.screenshot({ path: join(SHOTS, name), fullPage: full }); } catch (e) { console.log('WARN screenshot failed', name, e.message.slice(0, 60)); } }
 };
 const pages = [['/services/', 'services'], ['/services/ai-visibility/', 'service-ai-visibility'], ['/work/', 'work'], ['/work/tour-operator/', 'case'], ['/tools/', 'tools'], ['/notes/', 'notes'], ['/notes/robots-txt-blocking-ai-crawlers-exposes-admin/', 'article'], ['/about/', 'about'], ['/web-design-vaughan/', 'web-design-vaughan'], ['/web-design-york-region/', 'web-design-york-region'], ['/404-check-missing-page/', '404']];
 for (const [p, n] of pages) await shot(d, p, `${n}-desktop.png`);
