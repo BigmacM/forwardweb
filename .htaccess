@@ -8,12 +8,11 @@ Options -Indexes
 RewriteEngine On
 
 # --- 301s from the old site (first, so an http or www request to an old URL takes one hop) ---
-# Six suburb pages collapsed into two. Vaughan neighbourhoods fold into Vaughan.
+# Six suburb pages collapsed into three. Vaughan neighbourhoods fold into Vaughan.
 RewriteRule ^web-design-maple/?$ https://forwardweb.ca/web-design-vaughan/ [R=301,L]
 RewriteRule ^web-design-woodbridge/?$ https://forwardweb.ca/web-design-vaughan/ [R=301,L]
-# Markham, Richmond Hill and Thornhill share the York Region page.
+# Markham and Thornhill share the York Region page. Richmond Hill has its own page again (2026-11-02).
 RewriteRule ^web-design-markham/?$ https://forwardweb.ca/web-design-york-region/ [R=301,L]
-RewriteRule ^web-design-richmond-hill/?$ https://forwardweb.ca/web-design-york-region/ [R=301,L]
 RewriteRule ^web-design-thornhill/?$ https://forwardweb.ca/web-design-york-region/ [R=301,L]
 # Paths that moved.
 RewriteRule ^portfolio/?$ https://forwardweb.ca/work/ [R=301,L]
