@@ -114,6 +114,7 @@ document.querySelectorAll<HTMLFormElement>('form[data-lead]').forEach((form) => 
       const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; message?: string };
       if (res.ok && data.ok) {
+        (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag?.('event', 'generate_lead', { form_id: form.id });
         form.innerHTML =
           '<div class="sent" tabindex="-1" data-sent><h3 class="h-m">Got it.</h3><p>I\'ll reply within two working days, with a yes, a no, or a better idea.</p></div>';
         form.querySelector<HTMLElement>('[data-sent]')?.focus();

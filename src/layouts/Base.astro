@@ -101,6 +101,8 @@ const graph = [
     <link rel="alternate" type="application/rss+xml" title="ForwardWeb notes" href="/rss.xml" />
     {preloadFonts.map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />)}
     <script is:inline>document.documentElement.classList.add('js');</script>
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-LQSKTJRN2C"></script>
+    <script is:inline>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LQSKTJRN2C');</script>
     {graph.map((g) => <script type="application/ld+json" set:html={ldString(g)} />)}
   </head>
   <body>
