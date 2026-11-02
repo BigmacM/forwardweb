@@ -26,6 +26,8 @@ export const professionalService = (): Json => ({
   '@type': 'ProfessionalService',
   '@id': ID.business,
   name: SITE.name,
+  // The Google Business Profile is "Forward Web"; it used to be "Forward Web Design & Hosting".
+  alternateName: ['Forward Web', 'Forward Web Design & Hosting'],
   description:
     'ForwardWeb builds web products and makes them findable by search engines and AI assistants, for a small number of businesses at a time.',
   url: `${SITE.url}/`,
@@ -52,6 +54,7 @@ export const website = (): Json => ({
   '@id': ID.website,
   url: `${SITE.url}/`,
   name: SITE.name,
+  alternateName: 'Forward Web',
   publisher: { '@id': ID.business },
   inLanguage: 'en-CA',
 });
