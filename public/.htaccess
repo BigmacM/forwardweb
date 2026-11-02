@@ -18,6 +18,12 @@ RewriteRule ^web-design-thornhill/?$ https://forwardweb.ca/web-design-york-regio
 # Paths that moved.
 RewriteRule ^portfolio/?$ https://forwardweb.ca/work/ [R=301,L]
 RewriteRule ^contact/?$ https://forwardweb.ca/apply/ [R=301,L]
+# Old pages still showing in Search Console (2026-11-02 export).
+RewriteRule ^web-design/?$ https://forwardweb.ca/services/websites/ [R=301,L]
+RewriteRule ^local-seo/?$ https://forwardweb.ca/services/seo/ [R=301,L]
+RewriteRule ^who-we-are/?$ https://forwardweb.ca/about/ [R=301,L]
+RewriteRule ^security/?$ https://forwardweb.ca/services/ [R=301,L]
+RewriteRule ^our-work(/.*)?$ https://forwardweb.ca/work/ [R=301,L]
 
 # Force HTTPS and non-www -> canonical https://forwardweb.ca
 RewriteCond %{HTTPS} off [OR]
