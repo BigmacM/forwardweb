@@ -1,13 +1,14 @@
-// UTM link builder with a naming guard: lowercase, no spaces, parameters in the right place.
+// UTM link builder with a naming guard: lowercase, no spaces, parameters in the right place,
+// and a refusal to overwrite tags that are already on the address.
 import { copyText } from './copy';
 
 const FIELDS = ['source', 'medium', 'campaign', 'term', 'content'] as const;
 type Field = (typeof FIELDS)[number];
 const REQUIRED: Field[] = ['source', 'medium', 'campaign'];
 
-/** The convention the guard enforces: lowercase, words joined by hyphens. */
+/** The convention the guard enforces: lowercase, words joined by hyphens. Underscores are allowed and kept. */
 export const tidy = (v: string): string =>
-  v.trim().toLowerCase().replace(/[\s_]+/g, '-').replace(/[^a-z0-9\-.]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
+  v.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-_.]/g, '').replace(/-+/g, '-').replace(/^[-_]+|[-_]+$/g, '');
 
 document.querySelectorAll<HTMLElement>('[data-utm]').forEach((root) => {
   const $ = <T extends HTMLElement>(s: string) => root.querySelector<T>(s)!;
@@ -25,11 +26,13 @@ document.querySelectorAll<HTMLElement>('[data-utm]').forEach((root) => {
     return '';
   };
 
-  const urlProblem = (v: string): { bad: string; url: URL | null } => {
+  const parseUrl = (v: string): { bad: string; url: URL | null } => {
     if (!v) return { bad: 'Enter the page address, starting with https://.', url: null };
     try {
       const u = new URL(v);
       if (!/^https?:$/.test(u.protocol)) throw new Error('protocol');
+      const existing = [...u.searchParams.keys()].filter((k) => k.toLowerCase().startsWith('utm_'));
+      if (existing.length) return { bad: `That address already has UTM tags (${existing.join(', ')}). Remove them first, so old and new tags do not mix.`, url: u };
       return { bad: '', url: u };
     } catch {
       return { bad: 'Start the address with https://, like https://yourbusiness.ca/offer/.', url: null };
@@ -37,8 +40,11 @@ document.querySelectorAll<HTMLElement>('[data-utm]').forEach((root) => {
   };
 
   const update = () => {
-    const u = urlProblem(input('url').value.trim());
-    err('url').textContent = touched.has('url') ? u.bad : '';
+    const raw = input('url').value.trim();
+    const u = parseUrl(raw);
+    err('url').textContent = touched.has('url') || u.bad.includes('already') ? u.bad : '';
+    if (u.bad.includes('already')) input('url').setAttribute('aria-invalid', 'true');
+    else if (!(touched.has('url') && u.bad)) input('url').removeAttribute('aria-invalid');
     let allOk = !u.bad;
     FIELDS.forEach((f) => {
       const p = problem(f, input(f).value.trim());
@@ -49,22 +55,21 @@ document.querySelectorAll<HTMLElement>('[data-utm]').forEach((root) => {
     });
     if (!u.url || !allOk) {
       out.textContent = '';
-      state.textContent = 'Add a page address, a source, a medium and a campaign.';
-      if (u.url && u.url.search && /utm_/.test(u.url.search)) state.textContent = 'That address already has UTM tags. Remove them first.';
+      state.textContent = u.bad.includes('already') ? 'Remove the existing UTM tags from the address, then I will build the link.' : 'Add a page address, a source, a medium and a campaign.';
       return;
     }
-    const link = new URL(u.url.toString());
-    FIELDS.forEach((f) => {
-      const v = input(f).value.trim();
-      if (v) link.searchParams.set(`utm_${f}`, v);
-    });
-    out.textContent = link.toString();
+    // Append to the address as typed, so existing parameters keep their exact encoding. Tags go before any #fragment.
+    const hashAt = raw.indexOf('#');
+    const base = hashAt >= 0 ? raw.slice(0, hashAt) : raw;
+    const hash = hashAt >= 0 ? raw.slice(hashAt) : '';
+    const tags = FIELDS.filter((f) => input(f).value.trim()).map((f) => `utm_${f}=${encodeURIComponent(input(f).value.trim())}`);
+    const joiner = base.includes('?') ? (/[?&]$/.test(base) ? '' : '&') : '?';
+    out.textContent = `${base}${joiner}${tags.join('&')}${hash}`;
     state.textContent = 'Ready. Names are lowercase with no spaces.';
   };
 
   root.addEventListener('input', (e) => {
-    const t = e.target as HTMLElement;
-    const f = t.getAttribute('data-f');
+    const f = (e.target as HTMLElement).getAttribute('data-f');
     if (f) touched.add(f);
     update();
   });

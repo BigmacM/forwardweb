@@ -64,6 +64,8 @@ const consoleProblems = [];
 const newPage = async (w, h, scale = 1) => {
   const page = await browser.newPage();
   await page.setViewport({ width: w, height: h, deviceScaleFactor: scale });
+  page.setDefaultTimeout(25000);
+  page.setDefaultNavigationTimeout(25000);
   page.on('console', (m) => {
     if (['error', 'warning'].includes(m.type()) && !(page.url().includes('missing-page') && /404/.test(m.text()))) consoleProblems.push(`${page.url()} ${m.type()}: ${m.text()}`);
   });
@@ -228,8 +230,92 @@ const bd = await d.evaluate(() => ({ out: document.querySelector('[data-board] [
 ok('dispatch demo: double-booking is blocked with an explanation', bd.bad && /Blocked: Driver 1/.test(bd.out), bd.out);
 await d.screenshot({ path: join(SHOTS, 'apps-desktop.png'), fullPage: true });
 
+/* 6b. Regression checks from the QA round */
+// B2: a double tap must not skip a question
+await d.goto(BASE + '/tools/ai-visibility-check/', { waitUntil: 'networkidle0' });
+await d.evaluate(() => sessionStorage.clear());
+await d.reload({ waitUntil: 'networkidle0' });
+await d.click('[data-check] .opt[data-v="yes"]', { count: 2, delay: 20 });
+await new Promise((r) => setTimeout(r, 500));
+const dt = await d.evaluate(() => ({ step: document.querySelector('[data-step]').textContent, run: document.querySelector('[data-run]').textContent }));
+ok('check: double tap answers once and advances once (Question 2 of 8)', dt.step === 'Question 2 of 8' && dt.run === '2 of 2 so far', JSON.stringify(dt));
+// same tick, so the 200 ms advance cannot fire between the two clicks
+await d.evaluate(() => { document.querySelector('[data-check] .opt[data-v="no"]').click(); document.querySelector('[data-back]').click(); });
+await new Promise((r) => setTimeout(r, 500));
+const bk = await d.evaluate(() => document.querySelector('[data-step]').textContent);
+ok('check: Back cancels the pending advance', bk === 'Question 1 of 8', bk);
+for (let i = 0; i < 8; i++) { await d.click('[data-check] .opt[data-v="yes"]'); await new Promise((r) => setTimeout(r, 260)); }
+const fin = await d.evaluate(() => ({ score: document.querySelector('[data-score]').textContent, stored: sessionStorage.getItem('fw-check') }));
+ok('check: finishes once with the right score', fin.score.startsWith('16') && fin.stored.includes('16/16'), fin.score);
+await d.click('[data-restart]');
+const rs = await d.evaluate(() => ({ stored: sessionStorage.getItem('fw-check') }));
+ok('check: Restart clears the stored result', rs.stored === null);
+await d.goto(BASE + '/', { waitUntil: 'networkidle0' });
+await d.evaluate(() => sessionStorage.clear());
+await d.reload({ waitUntil: 'networkidle0' });
+for (let i = 0; i < 8; i++) { await d.click('[data-check] .opt[data-v="no"]'); await new Promise((r) => setTimeout(r, 260)); }
+await d.click('[data-restart]');
+const hr = await d.evaluate(() => ({ score: document.querySelector('#apply-form [name=score]').value, fixes: document.querySelector('#apply-form [name=fixes]').value, note: document.querySelector('#apply-form [data-score-note]').hidden }));
+ok('home: Restart clears the apply form hidden fields and note', hr.score === '' && hr.fixes === '' && hr.note, JSON.stringify(hr));
+
+// S4 / S5: robots path normalisation and linear matching
+await d.goto(BASE + '/tools/robots-txt-checker/', { waitUntil: 'networkidle0' });
+await d.click('[data-example]');
+await d.$eval('[data-path]', (e) => (e.value = 'https://example.ca/account?x=1'));
+await d.evaluate(() => document.querySelector('[data-path]').dispatchEvent(new Event('input')));
+const np = await d.evaluate(() => ({ head: document.querySelector('[data-pathhead]').textContent, cla: [...document.querySelectorAll('[data-rows] tr')].find((t) => t.textContent.includes('PerplexityBot')).children[3].textContent.trim() }));
+ok('robots: a full URL is normalised to its path and tested', np.head === '/account?x=1' && np.cla === 'Blocked', JSON.stringify(np));
+const t0 = Date.now();
+await d.$eval('[data-input]', (e) => (e.value = 'User-agent: *\nDisallow: /*a*a*a*a*a*a*a*a*a*a*b\n'));
+await d.$eval('[data-path]', (e) => (e.value = '/' + 'a'.repeat(40)));
+await d.evaluate(() => document.querySelector('[data-input]').dispatchEvent(new Event('input')));
+ok('robots: ten wildcards against a 40-char path answers in well under a second', Date.now() - t0 < 1000, `${Date.now() - t0}ms`);
+
+// S6: UTM refuses to overwrite existing tags and keeps other params' encoding
+await d.goto(BASE + '/tools/utm-builder/', { waitUntil: 'networkidle0' });
+await d.type('[data-f=url]', 'https://example.ca/o/?c=a%20b&utm_source=old');
+await d.type('[data-f=source]', 'news'); await d.type('[data-f=medium]', 'email'); await d.type('[data-f=campaign]', 'x');
+const uo = await d.evaluate(() => ({ out: document.querySelector('[data-out]').textContent, err: document.querySelector('[data-e=url]').textContent }));
+ok('utm: existing UTM tags are flagged and nothing is overwritten', uo.out === '' && /already has UTM/.test(uo.err), uo.err);
+await d.$eval('[data-f=url]', (e) => (e.value = 'https://example.ca/o/?c=a%20b#top'));
+await d.evaluate(() => document.querySelector('[data-f=url]').dispatchEvent(new Event('input', { bubbles: true })));
+const ue = await d.evaluate(() => document.querySelector('[data-out]').textContent);
+ok('utm: other params keep their encoding and tags land before the fragment', ue === 'https://example.ca/o/?c=a%20b&utm_source=news&utm_medium=email&utm_campaign=x#top', ue);
+
+// S7: schema output cannot end its own script tag, and bad numbers are refused
+await d.goto(BASE + '/tools/schema-generator/', { waitUntil: 'networkidle0' });
+await d.type('[name=name]', 'Acme </script><script>alert(1)</script>');
+await d.type('[name=url]', 'https://example.ca/');
+const sx = await d.evaluate(() => document.querySelector('[data-out]').textContent);
+const closers = (sx.match(/<\/script>/g) || []).length;
+ok('schema: a typed closing script tag is escaped in the output', closers === 1 && sx.includes('<\\/script>'), `${closers} real closers`);
+const sx2 = await d.evaluate(() => document.querySelector('[data-state]').textContent);
+ok('schema: name and URL alone is a draft, not "Looks valid"', /Draft only/.test(sx2), sx2);
+await d.click('input[name="sc-mode"][value="service"]');
+await d.type('[name=price]', '1e999');
+const pr = await d.evaluate(() => ({ err: document.querySelector('[data-err=price]').textContent, out: document.querySelector('[data-out]').textContent.includes('minPrice') }));
+ok('schema: 1e999 is rejected and emits no price', /plain number/.test(pr.err) && !pr.out, pr.err);
+
+// S1: phone menu
+const mp = await newPage(390, 844, 1);
+await mp.goto(BASE + '/', { waitUntil: 'networkidle0' });
+await mp.click('.menu summary');
+await new Promise((r) => setTimeout(r, 150)); // the details toggle event is asynchronous
+const inert = await mp.evaluate(() => document.querySelector('main').inert);
+await mp.keyboard.press('Escape');
+const closed = await mp.evaluate(() => ({ open: document.querySelector('.menu').open, inert: document.querySelector('main').inert, focus: document.activeElement.tagName }));
+ok('menu: open makes the page inert; Escape closes, releases it and refocuses Menu', inert === true && closed.open === false && closed.inert === false && closed.focus === 'SUMMARY', JSON.stringify(closed));
+
+// heading order and title length on every real page
+for (const r of routes.filter((x) => !x.includes('missing'))) {
+  await seoPage.goto(BASE + r, { waitUntil: 'domcontentloaded' });
+  const h = await seoPage.evaluate(() => { const lv = [...document.querySelectorAll('h1,h2,h3,h4,h5,h6')].map((e) => +e.tagName[1]); let bad = null; lv.forEach((l, i) => { if (i && l > lv[i - 1] + 1 && !bad) bad = `h${lv[i - 1]} to h${l}`; }); return { bad, t: document.title.length }; });
+  ok(`headings and title ${r}`, !h.bad && h.t <= 62, h.bad ?? `${h.t}c`);
+}
+
 /* 7. Screenshots of key pages */
 const shot = async (page, path, name, full = true) => {
+  console.log('shot', path);
   await page.goto(BASE + path, { waitUntil: 'networkidle0' });
   await page.evaluate(async () => { document.querySelectorAll('[data-ill]').forEach((e) => e.classList.add('in')); window.scrollTo(0, document.body.scrollHeight); await new Promise((r) => setTimeout(r, 250)); window.scrollTo(0, 0); });
   await new Promise((r) => setTimeout(r, 1300));

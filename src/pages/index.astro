@@ -31,7 +31,7 @@ const notes = (await publishedNotes()).slice(0, 3);
           <div class="cta">
             <a class="btn" href="#check">Start the free check</a>
             <div class="by">
-              <Avatar size={44} />
+              <Avatar size={44} eager />
               <div><b>Built by {SITE.founderShort}</b>{SITE.availability}</div>
             </div>
           </div>
@@ -87,6 +87,7 @@ const notes = (await publishedNotes()).slice(0, 3);
     <div class="wrap">
       <div class="row">
         <p class="margin"><b>What I do</b>Six things, one person. I would rather do the right few for you than all six for anyone.</p>
+        <h2 class="sr">What I do</h2>
         <ServiceList />
       </div>
     </div>
@@ -97,7 +98,7 @@ const notes = (await publishedNotes()).slice(0, 3);
       <blockquote>A website nobody can find is a brochure in a drawer.</blockquote>
       <div class="who">
         <Avatar size={44} />
-        <span><b>{SITE.founderShort}</b>Why every project starts with the audit</span>
+        <span><b>{SITE.founderShort}</b>My own line, and why every project starts with the audit</span>
       </div>
     </div>
   </section>
@@ -106,10 +107,10 @@ const notes = (await publishedNotes()).slice(0, 3);
     <div class="wrap">
       <div class="split">
         <div class="stick">
-          <h2 class="h-l">Three things I'm building now. Two you can try.</h2>
-          <p class="deck dim" style="margin-top:18px;max-width:30ch">Private products for real businesses. The demos are small pieces of the real logic, and nothing in them is saved.</p>
+          <h2 class="h-l">Two things I'm building now, and one on the drawing board.</h2>
+          <p class="deck dim" style="margin-top:18px;max-width:30ch">The demos are small pieces of the real logic, and nothing in them is saved.</p>
           <div class="nda2">
-            <b>The third</b>A patient app and website for a group of health-tourism clinics. Under NDA, so no demo and no names. Ask me about the approach on a call.
+            <b>On the drawing board</b>A patient app and website for a group of health-tourism clinics. It is in early planning, so there is no demo yet. Ask me about the approach on a call.
           </div>
         </div>
         <div class="stack"><Calendar /><Board /></div>

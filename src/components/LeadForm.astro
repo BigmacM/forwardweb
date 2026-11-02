@@ -20,7 +20,7 @@ const audit = variant === 'audit';
   <input type="hidden" name="fixes" value="" />
   <div class="hp" aria-hidden="true">
     <label for={`${id}-co`}>Leave this empty</label>
-    <input id={`${id}-co`} name="company" type="text" tabindex="-1" autocomplete="off" />
+    <input id={`${id}-co`} name="xq_hp_7" type="text" tabindex="-1" autocomplete="off" data-lpignore="true" data-form-type="other" />
   </div>
 
   {audit && <p class="note">The audit is a fixed price, {fromPrice('audit')} CAD plus HST. You get a written plan whether or not we work together.</p>}
@@ -40,6 +40,7 @@ const audit = variant === 'audit';
     <div class="field">
       <label for={`${id}-bk`}>Do you take bookings or leads online?</label>
       <select id={`${id}-bk`} name="bookings">
+        <option value="" selected>Choose one</option>
         {BOOKINGS.map((b) => <option>{b}</option>)}
       </select>
     </div>

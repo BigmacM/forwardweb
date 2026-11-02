@@ -45,26 +45,26 @@
             <div class="field"><label for="sc-tel">Phone</label><input id="sc-tel" name="telephone" placeholder="+1-416-555-0100" inputmode="tel" autocomplete="off" /><div class="err" data-err="telephone" role="alert"></div></div>
             <div class="field"><label for="sc-mail">Email</label><input id="sc-mail" name="email" inputmode="email" autocomplete="off" /><div class="err" data-err="email" role="alert"></div></div>
           </div>
-          <div class="field"><label for="sc-street">Street address</label><input id="sc-street" name="street" autocomplete="off" /></div>
+          <div class="field"><label for="sc-street">Street address</label><input id="sc-street" name="street" autocomplete="off" /><div class="err" data-err="street" role="alert"></div></div>
           <div class="two">
-            <div class="field"><label for="sc-city">City</label><input id="sc-city" name="city" autocomplete="off" /></div>
-            <div class="field"><label for="sc-region">Province or state</label><input id="sc-region" name="region" autocomplete="off" /></div>
+            <div class="field"><label for="sc-city">City</label><input id="sc-city" name="city" autocomplete="off" /><div class="err" data-err="city" role="alert"></div></div>
+            <div class="field"><label for="sc-region">Province or state</label><input id="sc-region" name="region" autocomplete="off" /><div class="err" data-err="region" role="alert"></div></div>
           </div>
           <div class="two">
-            <div class="field"><label for="sc-postal">Postal code</label><input id="sc-postal" name="postal" autocomplete="off" /></div>
+            <div class="field"><label for="sc-postal">Postal code</label><input id="sc-postal" name="postal" autocomplete="off" /><div class="err" data-err="postal" role="alert"></div></div>
             <div class="field"><label for="sc-country">Country code</label><input id="sc-country" name="country" value="CA" maxlength="2" autocomplete="off" /><div class="err" data-err="country" role="alert"></div></div>
           </div>
         </div>
 
         <div data-for="service" class="form" hidden>
-          <div class="field"><label for="sc-provider">Provider (your business name)</label><input id="sc-provider" name="provider" autocomplete="off" /></div>
+          <div class="field"><label for="sc-provider">Provider (your business name)</label><input id="sc-provider" name="provider" autocomplete="off" /><div class="err" data-err="provider" role="alert"></div></div>
           <div class="field"><label for="sc-area">Area served</label><input id="sc-area" name="area" placeholder="Vaughan, Ontario" autocomplete="off" /></div>
           <div class="field"><label for="sc-price">Starting price (optional)</label><input id="sc-price" name="price" inputmode="decimal" placeholder="1500" autocomplete="off" /><div class="err" data-err="price" role="alert"></div></div>
-          <div class="field"><label for="sc-cur">Currency</label><input id="sc-cur" name="currency" value="CAD" maxlength="3" autocomplete="off" /></div>
+          <div class="field"><label for="sc-cur">Currency</label><input id="sc-cur" name="currency" value="CAD" maxlength="3" autocomplete="off" /><div class="err" data-err="currency" role="alert"></div></div>
         </div>
       </div>
 
-      <h3 class="h-m" style="margin-top:26px">Your JSON-LD</h3>
+      <h2 class="h-m" style="margin-top:26px">Your JSON-LD</h2>
       <p class="hint" data-state role="status" aria-live="polite">Add a name and a website address to see your code.</p>
       <pre class="code" data-out tabindex="0" aria-label="Generated JSON-LD"></pre>
       <div class="toolbar">

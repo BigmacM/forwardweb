@@ -4,8 +4,8 @@
 type Rule = (v: string) => true | string;
 
 const rules: Record<string, Rule> = {
-  url: (v) => /^(https?:\/\/)?[^\s.\/]+(\.[^\s.\/]+)+(\/\S*)?$/.test(v.trim()) || 'Enter your website address, like yourbusiness.ca.',
-  email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Enter an email I can reply to, like name@company.com.',
+  url: (v) => /^(https?:\/\/)?[^\s.\/:]+(\.[^\s.\/:]+)+(\/\S*)?$/.test(v.trim()) || 'Enter your website address, like yourbusiness.ca.',
+  email: (v) => (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) && !v.includes('..')) || 'Enter an email I can reply to, like name@company.com.',
 };
 
 interface CheckPayload { score: string; fixes: string }
@@ -35,11 +35,24 @@ const applyCheck = (form: HTMLFormElement, c: CheckPayload | null) => {
   }
 };
 
+const clearCheck = (form: HTMLFormElement) => {
+  for (const name of ['score', 'fixes']) {
+    const el = form.elements.namedItem(name);
+    if (el instanceof HTMLInputElement) el.value = '';
+  }
+  const note = form.querySelector<HTMLElement>('[data-score-note]');
+  if (note) {
+    note.textContent = '';
+    note.hidden = true;
+  }
+};
+
 const FALLBACK = "Try again, or email info@forwardweb.ca and I'll reply from there.";
 
 document.querySelectorAll<HTMLFormElement>('form[data-lead]').forEach((form) => {
   applyCheck(form, readCheck());
   window.addEventListener('fw:check', (e) => applyCheck(form, (e as CustomEvent<CheckPayload>).detail));
+  window.addEventListener('fw:check-reset', () => clearCheck(form));
 
   const status = form.querySelector<HTMLElement>('[data-status]')!;
   const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;

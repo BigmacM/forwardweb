@@ -117,7 +117,7 @@ const RAW: ServicePageData[] = [
     ],
     faq: [
       { q: 'How much does a website cost?', a: 'Websites start from {{price:websites}} CAD plus HST. The quote depends on the number of pages and what they need to do, and it is fixed before work begins. My note on Toronto market pricing is in the Notes section.' },
-      { q: 'What happens after launch?', a: 'You can look after it yourself, or take the care plan at {{price:care}}. I put exactly what the plan covers in the written quote, so there is nothing to guess.' },
+      { q: 'What happens after launch?', a: 'You can look after it yourself, or take the care plan at {{price:care}}. It covers hosting oversight, updates and backups, uptime monitoring, a monthly report and up to two hours of small edits.' },
       { q: 'Do you use templates or page builders?', a: 'I build by hand. That is why the sites are light and why I can control the structure that search and assistants read.' },
       { q: 'Can you redesign my existing site without losing my rankings?', a: 'Yes. A redesign starts with a list of the pages that earn traffic and enquiries today, and the redirects that protect them.' },
     ],

@@ -6,7 +6,7 @@ export async function GET(context: APIContext) {
   const notes = await publishedNotes();
   return rss({
     title: 'ForwardWeb notes',
-    description: 'What I test on my own sites and clients\' sites, written up with dates.',
+    description: 'What I test on my own sites and projects, written up with dates.',
     site: context.site!,
     items: notes.map((n) => ({
       title: n.data.title,
@@ -16,6 +16,7 @@ export async function GET(context: APIContext) {
       categories: [n.data.category],
       author: `info@forwardweb.ca (${n.data.author})`,
     })),
-    customData: '<language>en-ca</language>',
+    xmlns: { atom: 'http://www.w3.org/2005/Atom' },
+    customData: `<language>en-ca</language><lastBuildDate>${new Date().toUTCString()}</lastBuildDate><atom:link href="${new URL('/rss.xml', context.site!).toString()}" rel="self" type="application/rss+xml" />`,
   });
 }

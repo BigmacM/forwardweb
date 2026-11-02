@@ -54,16 +54,59 @@ export function parse(text: string): Group[] {
   return groups;
 }
 
-const toRegex = (p: string) =>
-  new RegExp('^' + p.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*').replace(/\\\$$/, '$'));
+/**
+ * Does a robots.txt pattern match this path? Supports * and a trailing $, and matches as a prefix otherwise.
+ * Iterative with a single backtrack point, so it is linear-ish and cannot blow up the way a regex with many
+ * wildcards can (a pasted file with ten * in one rule used to freeze the tab).
+ */
+export function matches(pattern: string, path: string): boolean {
+  const anchored = pattern.endsWith('$');
+  const pat = anchored ? pattern.slice(0, -1) : pattern;
+  let p = 0;
+  let s = 0;
+  let star = -1;
+  let mark = 0;
+  while (s < path.length) {
+    if (p >= pat.length && !anchored) return true; // pattern fully matched as a prefix
+    if (p < pat.length && pat[p] === '*') {
+      star = p++;
+      mark = s;
+    } else if (p < pat.length && pat[p] === path[s]) {
+      p++;
+      s++;
+    } else if (star >= 0) {
+      p = star + 1;
+      s = ++mark;
+    } else {
+      return false;
+    }
+  }
+  while (p < pat.length && pat[p] === '*') p++;
+  return p === pat.length;
+}
+
+/** Turn whatever was typed into a path to test: a full URL, a path with a query, or a bare word. */
+export function normalisePath(input: string): string {
+  let v = input.trim();
+  if (!v) return '/';
+  if (/^[a-z][a-z0-9+.-]*:\/\//i.test(v) || v.startsWith('//')) {
+    try {
+      const u = new URL(v.startsWith('//') ? 'https:' + v : v);
+      v = u.pathname + u.search;
+    } catch {
+      /* fall through with what was typed */
+    }
+  }
+  v = v.replace(/#.*/, '');
+  return '/' + v.replace(/^\/+/, '');
+}
 
 export function allowed(rules: Directive[], path: string): boolean {
   let best: Directive | null = null;
   for (const r of rules) {
     const [kind, p] = r;
-    if (p === '' && kind === 'disallow') continue; // an empty Disallow allows everything
-    if (p === '' ) continue; // an empty Allow changes nothing
-    if (!toRegex(p).test(path)) continue;
+    if (p === '') continue; // an empty Disallow allows everything and an empty Allow changes nothing
+    if (!matches(p, path)) continue;
     if (!best || p.length > best[1].length || (p.length === best[1].length && kind === 'allow')) best = r;
   }
   return !best || best[0] === 'allow';
@@ -106,7 +149,7 @@ document.querySelectorAll<HTMLElement>('[data-robots]').forEach((root) => {
     }
     empty.hidden = true;
     table.hidden = false;
-    const path = '/' + pathEl.value.trim().replace(/^\/+/, '');
+    const path = normalisePath(pathEl.value);
     pathHead.textContent = path;
 
     // Paths the wildcard group blocks for everyone: the ones a named bot's own group may quietly re-open.

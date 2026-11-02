@@ -151,3 +151,7 @@ textarea{resize:vertical}
 /* window title-bar state pills: the generic .wbar span colour must not win over the pill colours */
 .wbar .tag{color:var(--paper);font-weight:600}
 .wbar .tag.amb{color:var(--ink)}
+
+/* S2: .dim inside the cream form card must stay dark even on a dark band */
+.dark .win .dim,.darker .win .dim{color:var(--ink-2)}
+.quote .who{max-width:46ch}

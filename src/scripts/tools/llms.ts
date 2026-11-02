@@ -17,10 +17,12 @@ document.querySelectorAll<HTMLElement>('[data-llms]').forEach((root) => {
     const items: string[] = [];
     links.value.split(/\r?\n/).forEach((line, i) => {
       if (!line.trim()) return;
-      const [title, url, note] = line.split('|').map((s) => s.trim());
+      const parts = line.split('|').map((s) => s.trim());
+      const [title, url] = parts;
+      const note = parts.slice(2).join(' | '); // a pipe inside the note stays in the note
       let ok = false;
       try {
-        ok = !!url && /^https?:$/.test(new URL(url).protocol);
+        ok = !!url && !/\s/.test(url) && /^https?:$/.test(new URL(url).protocol);
       } catch {
         ok = false;
       }
@@ -40,7 +42,7 @@ document.querySelectorAll<HTMLElement>('[data-llms]').forEach((root) => {
   const update = () => {
     const { text, bad } = build();
     out.textContent = text;
-    err.textContent = bad[0] ?? '';
+    err.textContent = bad.length ? `${bad[0]}${bad.length > 1 ? ` (${bad.length - 1} more line${bad.length > 2 ? 's' : ''} also skipped)` : ''}` : '';
   };
 
   [name, sum, det, links].forEach((el) => el.addEventListener('input', update));
@@ -53,7 +55,7 @@ document.querySelectorAll<HTMLElement>('[data-llms]').forEach((root) => {
     a.href = URL.createObjectURL(blob);
     a.download = 'llms.txt';
     a.click();
-    URL.revokeObjectURL(a.href);
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
     state.textContent = 'Downloaded llms.txt.';
   });
   update();

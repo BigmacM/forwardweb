@@ -2,9 +2,12 @@
 /**
  * ForwardWeb lead endpoint. Receives the apply and audit forms and mails Max.
  *
+ * - Runs on PHP 7.4 or newer.
  * - Validates on the server (the browser checks are a courtesy).
- * - Honeypot field "company": real visitors never see it, bots fill it.
- * - File-based per-IP rate limit: 5 sends per hour.
+ * - Honeypot field "xq_hp_7": real visitors never see it, bots fill it.
+ * - Per-IP rate limit (5 sends an hour) in the system temp directory, checked only after validation passes.
+ *   If the rate store cannot be written the endpoint refuses politely, so it fails closed.
+ * - Rejects cross-site posts when the browser sends an Origin header for another host.
  * - No secrets live here. PHP mail() uses the host's mail setup.
  * - JSON for the in-page form (Accept: application/json), redirect to /thanks/ for the no-JS form.
  */
@@ -19,9 +22,10 @@ const BUDGETS = ['Under $2,500', '$2,500 to $5,000', '$5,000 to $12,000', '$12,0
 const STARTS = ['This month', 'Next 1 to 3 months', 'Just exploring'];
 const BOOKINGS = ['Yes, bookings or enquiries', 'No, it is information only', 'Not sure'];
 
-$wantsJson = isset($_SERVER['HTTP_ACCEPT']) && str_contains($_SERVER['HTTP_ACCEPT'], 'application/json');
+$wantsJson = isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false;
 
-function respond(bool $wantsJson, int $status, bool $ok, string $message): never
+/** Send the response and stop. Never returns. */
+function respond(bool $wantsJson, int $status, bool $ok, string $message): void
 {
     http_response_code($status);
     header('Cache-Control: no-store');
@@ -49,37 +53,35 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     respond($wantsJson, 405, false, 'This address only accepts the form.');
 }
 
-/** Trim, drop control characters (keeps newlines in free text), cap length. */
+// Cross-site posts: if the browser says where the request came from, it must be this site.
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if ($origin !== '' && $origin !== 'null') {
+    $originHost = parse_url($origin, PHP_URL_HOST);
+    $thisHost = preg_replace('/:\d+$/', '', (string) ($_SERVER['HTTP_HOST'] ?? ''));
+    if (!is_string($originHost) || strcasecmp($originHost, (string) $thisHost) !== 0) {
+        respond($wantsJson, 403, false, 'That request came from another site.');
+    }
+}
+
+/** Valid UTF-8 only (invalid bytes replaced), control characters removed, trimmed, length-capped. */
 function field(string $name, int $max, bool $multiline = false): string
 {
     $v = isset($_POST[$name]) && is_string($_POST[$name]) ? $_POST[$name] : '';
-    $v = $multiline
-        ? (string) preg_replace('/[^\P{C}\n]+/u', '', str_replace("\r\n", "\n", $v))
-        : (string) preg_replace('/\p{C}+/u', ' ', $v);
-    $v = trim($v);
-    return mb_substr($v, 0, $max);
+    if (!mb_check_encoding($v, 'UTF-8')) {
+        $v = mb_convert_encoding($v, 'UTF-8', 'UTF-8');
+    }
+    if ($multiline) {
+        $v = str_replace("\r\n", "\n", $v);
+        $v = (string) preg_replace('/[\x00-\x08\x0B-\x1F\x7F]/', '', $v); // keeps \n and \t
+    } else {
+        $v = (string) preg_replace('/[\x00-\x1F\x7F]/', ' ', $v);
+    }
+    return mb_substr(trim($v), 0, $max);
 }
 
 // Honeypot: say thanks and send nothing.
-if (field('company', 200) !== '') {
+if (field('xq_hp_7', 200) !== '') {
     respond($wantsJson, 200, true, 'Got it.');
-}
-
-// Rate limit by IP, kept in the system temp directory.
-$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-$file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'fw_lead_' . hash('sha256', $ip) . '.json';
-$now = time();
-$fh = @fopen($file, 'c+');
-$stamps = [];
-if ($fh !== false && flock($fh, LOCK_EX)) {
-    $raw = stream_get_contents($fh);
-    $decoded = $raw ? json_decode($raw, true) : [];
-    $stamps = array_values(array_filter(is_array($decoded) ? $decoded : [], fn ($t) => is_int($t) && $t > $now - 3600));
-    if (count($stamps) >= MAX_PER_HOUR) {
-        flock($fh, LOCK_UN);
-        fclose($fh);
-        respond($wantsJson, 429, false, 'That is a lot of messages from one connection. Wait a little, then try again.');
-    }
 }
 
 $type = field('type', 10) === 'audit' ? 'audit' : 'apply';
@@ -93,7 +95,7 @@ $budget = field('budget', 40);
 $timeline = field('timeline', 40);
 $bookings = field('bookings', 60);
 
-if (!preg_match('~^(https?://)?[^\s./]+(\.[^\s./]+)+(/\S*)?$~i', $url)) {
+if (!preg_match('~^(https?://)?[^\s./:]+(\.[^\s./:]+)+(/\S*)?$~i', $url)) {
     respond($wantsJson, 422, false, 'Enter your website address, like yourbusiness.ca.');
 }
 if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
@@ -102,6 +104,26 @@ if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
 if ($budget !== '' && !in_array($budget, BUDGETS, true)) { $budget = ''; }
 if ($timeline !== '' && !in_array($timeline, STARTS, true)) { $timeline = ''; }
 if ($bookings !== '' && !in_array($bookings, BOOKINGS, true)) { $bookings = ''; }
+
+// Rate limit, only now that the submission is valid. Keyed on REMOTE_ADDR (no CDN sits in front of the host).
+$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+$file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'fw_lead_' . hash('sha256', $ip) . '.json';
+$now = time();
+$fh = @fopen($file, 'c+');
+if ($fh === false || !flock($fh, LOCK_EX)) {
+    if ($fh !== false) { fclose($fh); }
+    respond($wantsJson, 503, false, 'Sending is paused for a moment.');
+}
+$raw = stream_get_contents($fh);
+$decoded = $raw ? json_decode($raw, true) : [];
+$stamps = array_values(array_filter(is_array($decoded) ? $decoded : [], function ($t) use ($now) {
+    return is_int($t) && $t > $now - 3600;
+}));
+if (count($stamps) >= MAX_PER_HOUR) {
+    flock($fh, LOCK_UN);
+    fclose($fh);
+    respond($wantsJson, 429, false, 'That is a lot of messages from one connection. Wait a little before sending another.');
+}
 
 $subject = ($type === 'audit' ? 'Audit request' : 'New enquiry') . ': ' . mb_substr($url, 0, 80);
 $lines = [
@@ -119,24 +141,27 @@ $lines[] = '';
 $lines[] = $msg !== '' ? "Notes:\n" . $msg : 'Notes: (none)';
 $body = implode("\n", $lines) . "\n";
 
+// Quoted-printable keeps non-Latin text intact and wraps every line well under the SMTP limit.
+$encodedBody = quoted_printable_encode(str_replace("\n", "\r\n", $body));
+
 $headers = [
+    'MIME-Version: 1.0',
     'From: ForwardWeb <' . FROM . '>',
     'Reply-To: ' . $email, // validated above, so no header injection
     'Content-Type: text/plain; charset=UTF-8',
+    'Content-Transfer-Encoding: quoted-printable',
     'X-Mailer: forwardweb-lead',
 ];
-$sent = @mail(TO, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers), '-f' . FROM);
+$sent = @mail(TO, '=?UTF-8?B?' . base64_encode($subject) . '?=', $encodedBody, implode("\r\n", $headers), '-f' . FROM);
 
-if ($fh !== false) {
-    if ($sent) {
-        $stamps[] = $now;
-        ftruncate($fh, 0);
-        rewind($fh);
-        fwrite($fh, json_encode($stamps));
-    }
-    flock($fh, LOCK_UN);
-    fclose($fh);
+if ($sent) {
+    $stamps[] = $now;
+    ftruncate($fh, 0);
+    rewind($fh);
+    fwrite($fh, json_encode($stamps));
 }
+flock($fh, LOCK_UN);
+fclose($fh);
 
 if (!$sent) {
     respond($wantsJson, 500, false, 'The mail server refused it.');

@@ -22,6 +22,14 @@ document.querySelectorAll<HTMLElement>('[data-check]').forEach((root) => {
   const run = $('[data-run]');
   const live = $('[data-live]');
 
+  // One pending advance at most. Every click and Back cancels it, so a double tap cannot skip a question.
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  let finished = false;
+  const cancel = () => {
+    if (timer !== undefined) clearTimeout(timer);
+    timer = undefined;
+  };
+
   const total = () => ans.reduce<number>((a, v) => a + (v ? pts[v] : 0), 0);
 
   const paintMeters = () => {
@@ -45,6 +53,8 @@ document.querySelectorAll<HTMLElement>('[data-check]').forEach((root) => {
   };
 
   const finish = () => {
+    if (finished) return;
+    finished = true;
     const sc = total();
     const max = Q.length * 2;
     const band = sc <= 5 ? 'Not visible to AI yet' : sc <= 11 ? 'Findable, not yet recommended' : 'A strong base';
@@ -78,11 +88,16 @@ document.querySelectorAll<HTMLElement>('[data-check]').forEach((root) => {
 
   opts.forEach((o) =>
     o.addEventListener('click', () => {
-      ans[i] = o.dataset.v as Answer;
+      if (finished) return;
+      cancel();
+      const asked = i;
+      ans[asked] = o.dataset.v as Answer;
       opts.forEach((x) => x.setAttribute('aria-pressed', String(x === o)));
       paintMeters();
       live.textContent = `Answered ${o.textContent}.`;
-      setTimeout(() => {
+      timer = setTimeout(() => {
+        timer = undefined;
+        if (i !== asked || finished) return;
         if (i < Q.length - 1) {
           i++;
           paint();
@@ -92,6 +107,7 @@ document.querySelectorAll<HTMLElement>('[data-check]').forEach((root) => {
   );
 
   back.addEventListener('click', () => {
+    cancel();
     if (i > 0) {
       i--;
       paint();
@@ -99,6 +115,8 @@ document.querySelectorAll<HTMLElement>('[data-check]').forEach((root) => {
   });
 
   root.querySelector('[data-restart]')?.addEventListener('click', () => {
+    cancel();
+    finished = false;
     ans.fill(null);
     i = 0;
     res.classList.remove('on');
@@ -108,6 +126,7 @@ document.querySelectorAll<HTMLElement>('[data-check]').forEach((root) => {
     } catch {
       /* ignore */
     }
+    window.dispatchEvent(new CustomEvent('fw:check-reset'));
     paint();
   });
 

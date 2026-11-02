@@ -65,7 +65,7 @@ const graph = [
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!(noindex && path === '/404/') && <link rel="canonical" href={canonical} />}
     {noindex && <meta name="robots" content="noindex,follow" />}
     <meta name="theme-color" content="#0F3A2D" />
 
@@ -79,8 +79,8 @@ const graph = [
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={ogAlt} />
-    {published && <meta property="article:published_time" content={published.toISOString()} />}
-    {modified && <meta property="article:modified_time" content={modified.toISOString()} />}
+    {published && <meta property="article:published_time" content={published.toISOString().slice(0, 10)} />}
+    {modified && <meta property="article:modified_time" content={modified.toISOString().slice(0, 10)} />}
     {ogType === 'article' && <meta property="article:author" content={SITE.founder} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />

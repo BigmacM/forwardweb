@@ -6,10 +6,11 @@ updatedAt: 2026-11-02
 category: How-to
 author: Maksut Ozcan
 draft: false
+seoTitle: "Check if ChatGPT recommends your business"
 standfirst: "You can find out in twenty minutes, for free, without any tools. This is the method I use before I quote anyone for AI visibility work."
 summary:
   - "Ask the questions your customers ask, not your company name."
-  - "Run each question three times on two assistants and log who is named."
+  - "Run each question twice on two assistants and log who is named."
   - "Absent means fix your basics first. Named but wrong means fix your facts."
 ---
 
@@ -33,14 +34,14 @@ Two other things are worth knowing before you start.
 <div class="method">
 
 1. **Write five questions a customer would type before choosing you.** Include your city and your service, and leave out your brand name. One question about the problem ("my basement floods when it rains, who fixes that near Vaughan?"), one about the service ("emergency plumber Vaughan"), one about price ("how much does a plumber cost in Vaughan?"), one comparing options ("how do I choose a plumber?"), and one specific to something you do better than others.
-2. **Ask each question three times on two assistants.** ChatGPT is the obvious one. Use Google's AI answers or another assistant for the second. Open a new chat for every run, in a private window, so earlier answers do not carry over.
+2. **Ask each question twice on two assistants.** ChatGPT is the obvious one. Use Google's AI answers or another assistant for the second. Open a new chat for every run, in a private window, so earlier answers do not carry over.
 3. **Log every run.** A spreadsheet is enough. One row per run, with these columns: the question, the assistant, the run number, whether you were named, in what position, and what it said about you.
 4. **Note the sources.** Some assistants show the pages they drew on. When yours does, write down which sites were cited, because those are the sites shaping the answer.
 5. **Repeat the exercise in a month.** One snapshot is a baseline. Two snapshots show direction.
 
 </div>
 
-That is thirty runs in total, five questions across two assistants and three runs each. It sounds like a lot, but each run takes under a minute.
+That is twenty runs in total, five questions across two assistants and two runs each. It sounds like a lot, but each run takes under a minute.
 
 ## How to read the answers
 
@@ -52,7 +53,7 @@ When the log is done, count the runs where you were named, and look at how you w
 | Named, details wrong | Your facts conflict across the web | Listings and directory consistency |
 | Named, after competitors | Known, but not cited as an authority | Direct answers, authorship, reviews |
 
-<p class="tcap">My own triage from site and client work. Not a published benchmark.</p>
+<p class="tcap">My own triage from the sites and projects I work on. Not a published benchmark.</p>
 
 Be careful with the second row. If an assistant gets your hours, address or services wrong, it usually found conflicting versions somewhere. An old directory listing, a previous address on a social profile and a page on your own site that was never updated can all do it. The fix is boring and effective: pick one correct set of facts and make every listing match.
 

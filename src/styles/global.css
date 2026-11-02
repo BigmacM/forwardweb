@@ -130,7 +130,7 @@ img,svg{display:block;max-width:100%}a{color:inherit}
 .hint{font-size:14px;color:var(--ink-2)}
 footer{padding:64px 0 36px}
 footer .cols{display:grid;grid-template-columns:minmax(0,5fr) repeat(3,minmax(0,2fr));gap:24px;margin-bottom:48px}
-footer a{display:block;text-decoration:none;padding:6px 0;color:var(--mute);font-size:16px}footer a:hover{color:var(--paper)}footer h4{font:600 14px var(--sans);color:var(--paper);margin-bottom:8px}
+footer a{display:block;text-decoration:none;padding:6px 0;color:var(--mute);font-size:16px}footer a:hover{color:var(--paper)}footer .ftitle{font:600 14px var(--sans);color:var(--paper);margin-bottom:8px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
 @media(max-width:860px){

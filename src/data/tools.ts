@@ -43,7 +43,7 @@ export const TOOL_PAGES: ToolPage[] = [
     name: 'AI crawler checker',
     thumb: 'robots',
     h1: 'Is your robots.txt blocking AI?',
-    title: 'AI crawler robots.txt checker: is GPTBot blocked? | ForwardWeb',
+    title: 'robots.txt checker for AI crawlers | ForwardWeb',
     description:
       'Paste your robots.txt and see which AI crawlers can read your site, using real group matching. Flags the rule that quietly re-opens paths you blocked. Free.',
     deck: "Paste your robots.txt. I'll show which AI crawlers can read your site, and flag the one mistake that quietly undoes your own rules.",
@@ -64,7 +64,7 @@ export const TOOL_PAGES: ToolPage[] = [
     name: 'Snippet preview',
     thumb: 'snippet',
     h1: 'How will your title and description look in search?',
-    title: 'Title tag and meta description pixel width checker | ForwardWeb',
+    title: 'Title and meta description pixel checker | ForwardWeb',
     description:
       'Type or paste a title and description and see them measured in pixels against the typical display limits, with a search result preview. Free, runs in your browser.',
     deck: 'Your title and description as a search result, measured in pixels rather than guessed in characters.',
@@ -85,7 +85,7 @@ export const TOOL_PAGES: ToolPage[] = [
     name: 'Schema generator',
     thumb: 'schema',
     h1: 'How do you add LocalBusiness schema to your site?',
-    title: 'LocalBusiness and Service schema generator (JSON-LD) | ForwardWeb',
+    title: 'LocalBusiness schema generator (JSON-LD) | ForwardWeb',
     description:
       'Fill in your business details and get valid LocalBusiness or Service JSON-LD to paste into your site, with checks as you type. Free, runs in your browser.',
     deck: 'Fill in your details and get JSON-LD you can paste into your site, checked as you type.',
@@ -106,7 +106,7 @@ export const TOOL_PAGES: ToolPage[] = [
     name: 'llms.txt generator',
     thumb: 'llms',
     h1: 'What is llms.txt, and should your site have one?',
-    title: 'llms.txt generator, with an honest note on what it does | ForwardWeb',
+    title: 'llms.txt generator and what it does | ForwardWeb',
     description:
       'Build an llms.txt file for your site in a minute. Free, runs in your browser. Plus an honest note: no major AI assistant has confirmed it uses the file.',
     deck: 'Build the file in a minute. My honest note: no major assistant has confirmed it uses the file.',
