@@ -11,6 +11,7 @@ Astro static site for forwardweb.ca. Branch `astro-rebuild`; the live site is st
 | `npm run build` | Writes the site to `dist/`. |
 | `npm run check` | Type-check Astro and TypeScript files. |
 | `node scripts/verify.mjs` | After a build: serves `dist/`, checks every route at 390px, SEO tags, every tool and demo, no-JS fallbacks, and writes screenshots to `mockups/build/`. Needs Puppeteer from `workspace/node_modules`. |
+| `node scripts/cls.mjs` | After a build: layout-shift check with the browser cache enabled (warm loads, three widths), plus a fallback-fit check that the page is the same height with the web fonts blocked. |
 | `npm run og` | Regenerates the 1200x630 images in `public/og/`. Only needed when a title changes. |
 
 ## Add a note
@@ -56,3 +57,7 @@ Build locally or in CI with `npm run build`, then serve the contents of `dist/` 
 - Illustrations are drawn in code in `src/lib/ill.ts` and wrapped by `Glyph`, `Cover`, `ToolThumb`, `Annotate` and `Ill` components. No icon packs.
 - GoTour screenshots live in `src/assets/shots/`. Re-shoot and re-annotate (`src/data/work.ts`) after any redesign of that site.
 - robots.txt must not name individual AI bots: naming a bot opts it out of the `*` rules.
+
+## Fonts and layout shift
+
+Fonts are self-hosted from Fontsource and the six used above the fold are preloaded. `src/styles/site.css` also declares metric-matched fallback faces ("Schibsted Grotesk Fallback", "Source Serif 4 Fallback") that scale Arial and Georgia so text wraps the same before and after the web font arrives. If you change a font or a weight, re-measure the width ratios and run `node scripts/cls.mjs`. Test layout shift with the cache enabled: a disabled cache hides font-swap shifts.

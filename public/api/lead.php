@@ -95,7 +95,7 @@ $budget = field('budget', 40);
 $timeline = field('timeline', 40);
 $bookings = field('bookings', 60);
 
-if (!preg_match('~^(https?://)?[^\s./:]+(\.[^\s./:]+)+(/\S*)?$~i', $url)) {
+if (!preg_match('~^(https?://)?[^\s./:]+(\.[^\s./:]+)+(:\d{1,5})?(/\S*)?$~i', $url)) {
     respond($wantsJson, 422, false, 'Enter your website address, like yourbusiness.ca.');
 }
 if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
@@ -125,7 +125,7 @@ if (count($stamps) >= MAX_PER_HOUR) {
     respond($wantsJson, 429, false, 'That is a lot of messages from one connection. Wait a little before sending another.');
 }
 
-$subject = ($type === 'audit' ? 'Audit request' : 'New enquiry') . ': ' . mb_substr($url, 0, 80);
+$subject = ($type === 'audit' ? 'Audit request' : 'New enquiry') . ': ' . mb_substr($url, 0, 40);
 $lines = [
     'Type: ' . ($type === 'audit' ? 'Audit request' : 'Apply / book a call'),
     'Website: ' . $url,
@@ -152,7 +152,7 @@ $headers = [
     'Content-Transfer-Encoding: quoted-printable',
     'X-Mailer: forwardweb-lead',
 ];
-$sent = @mail(TO, '=?UTF-8?B?' . base64_encode($subject) . '?=', $encodedBody, implode("\r\n", $headers), '-f' . FROM);
+$sent = @mail(TO, mb_encode_mimeheader($subject, 'UTF-8', 'B', "\r\n"), $encodedBody, implode("\r\n", $headers), '-f' . FROM);
 
 if ($sent) {
     $stamps[] = $now;

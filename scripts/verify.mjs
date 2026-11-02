@@ -59,7 +59,7 @@ const ok = (name, pass, note = '') => {
   console.log(`${pass ? 'PASS' : 'FAIL'}  ${name}${note ? '  ' + note : ''}`);
 };
 
-const browser = await puppeteer.launch({ headless: true });
+const browser = await puppeteer.launch({ headless: true, protocolTimeout: 120000 });
 const consoleProblems = [];
 const newPage = async (w, h, scale = 1) => {
   const page = await browser.newPage();

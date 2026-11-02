@@ -7,8 +7,15 @@ import '@fontsource/source-serif-4/latin-400.css';
 import '@fontsource/source-serif-4/latin-400-italic.css';
 import '@fontsource/source-serif-4/latin-600.css';
 import '@fontsource/source-serif-4/latin-600-italic.css';
-import sansUrl from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-600-normal.woff2?url';
-import serifUrl from '@fontsource/source-serif-4/files/source-serif-4-latin-400-normal.woff2?url';
+import sans400 from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-400-normal.woff2?url';
+import sans600 from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-600-normal.woff2?url';
+import sans700 from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-700-normal.woff2?url';
+import serif400 from '@fontsource/source-serif-4/files/source-serif-4-latin-400-normal.woff2?url';
+import serif400i from '@fontsource/source-serif-4/files/source-serif-4-latin-400-italic.woff2?url';
+import serif600i from '@fontsource/source-serif-4/files/source-serif-4-latin-600-italic.woff2?url';
+
+// Everything above the fold: body and UI sans, headings, wordmark, the italic deck and the serif body.
+const preloadFonts = [sans400, sans600, sans700, serif400, serif400i, serif600i];
 import '../styles/global.css';
 import '../styles/pages.css';
 import '../styles/site.css';
@@ -50,6 +57,7 @@ const {
 } = Astro.props;
 
 const canonical = abs(path);
+const is404 = noindex && path === '/404/';
 const image = abs(ogImage);
 const graph = [
   ...(path === '/' ? [professionalService(), website()] : []),
@@ -65,7 +73,7 @@ const graph = [
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    {!(noindex && path === '/404/') && <link rel="canonical" href={canonical} />}
+    {!is404 && <link rel="canonical" href={canonical} />}
     {noindex && <meta name="robots" content="noindex,follow" />}
     <meta name="theme-color" content="#0F3A2D" />
 
@@ -74,7 +82,7 @@ const graph = [
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {!is404 && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={image} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -91,8 +99,7 @@ const graph = [
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="ForwardWeb notes" href="/rss.xml" />
-    <link rel="preload" as="font" type="font/woff2" href={sansUrl} crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href={serifUrl} crossorigin />
+    {preloadFonts.map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />)}
     <script is:inline>document.documentElement.classList.add('js');</script>
     {graph.map((g) => <script type="application/ld+json" set:html={ldString(g)} />)}
   </head>

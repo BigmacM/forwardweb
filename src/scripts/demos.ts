@@ -5,18 +5,10 @@ document.querySelectorAll<HTMLElement>('[data-cal]').forEach((root) => {
   const grid = root.querySelector<HTMLElement>('[data-days]')!;
   const slots = root.querySelector<HTMLElement>('[data-slots]')!;
   const out = root.querySelector<HTMLElement>('[data-out]')!;
-  const booked = new Set([3, 4, 10, 17, 18, 24]);
   let day: string | null = null;
   let slot: string | null = null;
 
-  grid.innerHTML =
-    ['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d) => `<span aria-hidden="true">${d}</span>`).join('') +
-    Array.from({ length: 28 }, (_, n) => n + 1)
-      .map((d) => `<button type="button" data-d="${d}" aria-pressed="false" ${booked.has(d) ? `disabled aria-label="Day ${d}, full"` : ''}>${d}</button>`)
-      .join('');
-  ['09:00', '11:30', '14:00', '16:30'].forEach((t) =>
-    slots.insertAdjacentHTML('beforeend', `<button type="button" data-t="${t}" aria-pressed="false">${t}</button>`),
-  );
+  // The buttons are rendered by Calendar.astro; this script only wires them up.
 
   const update = () => {
     out.textContent =

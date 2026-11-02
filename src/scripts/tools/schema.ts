@@ -35,8 +35,7 @@ document.querySelectorAll<HTMLElement>('[data-schema]').forEach((root) => {
     if (!val('description')) e.description = 'Add a sentence or two about what you do.';
     else if (val('description').length < 20) e.description = 'Say a little more, one or two sentences work well.';
     if (mode() === 'business') {
-      if (!val('telephone')) e.telephone = 'Add a phone number, like +1-416-555-0100.';
-      else if (!/^\+?[0-9][0-9\s().-]{6,}$/.test(val('telephone'))) e.telephone = 'Use digits, like +1-416-555-0100.';
+      if (val('telephone') && !/^\+?[0-9][0-9\s().-]{6,}$/.test(val('telephone'))) e.telephone = 'Use digits, like +1-416-555-0100.';
       if (val('email') && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val('email'))) e.email = 'Enter an email like name@company.com.';
       if (!val('street')) e.street = 'Add the street address. Search engines expect a full address for a local business.';
       if (!val('city')) e.city = 'Add the city.';

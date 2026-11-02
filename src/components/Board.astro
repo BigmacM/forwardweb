@@ -1,3 +1,13 @@
+---
+// Initial state rendered on the server at its final size; the script takes over on the first click.
+const TRIPS = [
+  { id: 'T1', l: 'T1 08:00-13:00' },
+  { id: 'T2', l: 'T2 12:00-17:00' },
+  { id: 'T3', l: 'T3 14:00-19:00' },
+];
+const LANES = ['Driver 1', 'Driver 2'];
+---
+
 <article class="win" data-board>
   <div class="wbar">Dispatch for tour operators<span class="tag amb">Demo</span></div>
   <div class="wbody">
@@ -6,8 +16,15 @@
     <div class="needs-js">
       <p class="dim sm" style="margin-top:4px">Select a trip, then a driver. Try to double-book someone.</p>
       <div class="board">
-        <div class="lane"><b>Unassigned</b><div class="pool" data-pool></div></div>
-        <div data-lanes style="display:grid;gap:8px"></div>
+        <div class="lane">
+          <b>Unassigned</b>
+          <div class="pool" data-pool>
+            {TRIPS.map((t) => <button type="button" class="trip" data-id={t.id} aria-pressed="false">{t.l}</button>)}
+          </div>
+        </div>
+        <div data-lanes style="display:grid;gap:8px">
+          {LANES.map((n) => <div class="lane"><b>{n}</b><button type="button" class="track" data-lane={n} aria-label={`Assign to ${n}`}></button></div>)}
+        </div>
       </div>
       <p class="readout" data-out aria-live="polite">Select a trip, then a driver.</p>
       <button type="button" class="linkbtn" data-reset>Reset</button>

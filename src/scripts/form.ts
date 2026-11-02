@@ -4,7 +4,7 @@
 type Rule = (v: string) => true | string;
 
 const rules: Record<string, Rule> = {
-  url: (v) => /^(https?:\/\/)?[^\s.\/:]+(\.[^\s.\/:]+)+(\/\S*)?$/.test(v.trim()) || 'Enter your website address, like yourbusiness.ca.',
+  url: (v) => /^(https?:\/\/)?[^\s.\/:]+(\.[^\s.\/:]+)+(:\d{1,5})?(\/\S*)?$/.test(v.trim()) || 'Enter your website address, like yourbusiness.ca.',
   email: (v) => (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) && !v.includes('..')) || 'Enter an email I can reply to, like name@company.com.',
 };
 
@@ -47,7 +47,8 @@ const clearCheck = (form: HTMLFormElement) => {
   }
 };
 
-const FALLBACK = "Try again, or email info@forwardweb.ca and I'll reply from there.";
+const RETRY = "Try again, or email info@forwardweb.ca and I'll reply from there.";
+const ALSO_EMAIL = "You can also email info@forwardweb.ca and I'll reply from there.";
 
 document.querySelectorAll<HTMLFormElement>('form[data-lead]').forEach((form) => {
   applyCheck(form, readCheck());
@@ -120,11 +121,11 @@ document.querySelectorAll<HTMLFormElement>('form[data-lead]').forEach((form) => 
       }
       setBusy(false);
       status.classList.add('bad');
-      status.textContent = `${data.message ?? "That didn't send."} ${FALLBACK}`;
+      status.textContent = data.message ? `${data.message} ${ALSO_EMAIL}` : `That didn't send. ${RETRY}`;
     } catch {
       setBusy(false);
       status.classList.add('bad');
-      status.textContent = `That didn't send. ${FALLBACK}`;
+      status.textContent = `That didn't send. ${RETRY}`;
     }
   });
 });
