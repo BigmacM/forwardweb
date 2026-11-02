@@ -1,0 +1,28 @@
+# ForwardWeb
+
+> ForwardWeb is a one-person studio in Vaughan, ON, run by Maksut Ozcan. I build web products and make them findable by search engines and AI assistants. Taking projects now.
+
+Audits start from $1,500 CAD plus HST. Websites start from $5,000. Every project starts with a fixed quote.
+
+## Key pages
+
+- [Services and prices](https://forwardweb.ca/services/): what I do and what it costs
+- [Case study](https://forwardweb.ca/work/tour-operator/): a site built from almost nothing to a top source of bookings
+- [In development](https://forwardweb.ca/apps/): booking and dispatch products with playable demos
+- [About](https://forwardweb.ca/about/): who I am and how I work
+- [Apply](https://forwardweb.ca/apply/): request the audit or start a project
+
+## Free tools
+
+- [AI visibility check](https://forwardweb.ca/tools/ai-visibility-check/): Eight questions about your site and listings. You get a score and the three fixes I would make first, written the way I would say them.
+- [AI crawler checker](https://forwardweb.ca/tools/robots-txt-checker/): Paste your robots.txt. I'll show which AI crawlers can read your site, and flag the one mistake that quietly undoes your own rules.
+- [Snippet preview](https://forwardweb.ca/tools/snippet-preview/): Your title and description as a search result, measured in pixels rather than guessed in characters.
+- [Schema generator](https://forwardweb.ca/tools/schema-generator/): Fill in your details and get JSON-LD you can paste into your site, checked as you type.
+- [llms.txt generator](https://forwardweb.ca/tools/llms-txt-generator/): Build the file in a minute. My honest note: no major assistant has confirmed it uses the file.
+- [UTM link builder](https://forwardweb.ca/tools/utm-builder/): Consistent campaign links, with a guard so Facebook and facebook stop splitting your reports.
+
+## Notes
+
+- [How to check whether ChatGPT recommends your business](https://forwardweb.ca/notes/check-chatgpt-recommends-your-business/): A twenty-minute method with no tools: ask the questions your customers ask, repeat them, log who gets named, and read what it means. By Max Ozcan.
+- [Is your robots.txt blocking AI crawlers? The mistake that also exposes /admin](https://forwardweb.ca/notes/robots-txt-blocking-ai-crawlers-exposes-admin/): Naming an AI bot in robots.txt gives it its own group, and it then ignores your * rules. How that quietly re-opens paths you blocked, and how to fix it.
+- [How much does a small business website cost in Toronto in 2026?](https://forwardweb.ca/notes/small-business-website-cost-toronto-2026/): Published Toronto and Canadian price bands for small business websites, care plans and AI visibility work, what drives the price, and where my own prices sit.

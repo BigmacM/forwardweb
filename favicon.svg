@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ForwardWeb">
+  <rect width="64" height="64" rx="14" fill="#17171B"/>
+  <!-- F with a forward top-stroke -->
+  <path d="M23 18h22v7H30v6h12v7H30v11h-7z" fill="#F4F1EA"/>
+  <!-- forward accent bar -->
+  <rect x="14" y="18" width="7" height="7" rx="1.5" fill="#F0492B"/>
+</svg>
