@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Ill from '../components/Ill.astro';
+---
+
+<Base
+  tone="light"
+  path="/404/"
+  title="Page not found | ForwardWeb"
+  description="That page isn't here. Try the home page or one of the free tools."
+  noindex
+>
+  <section class="light sec">
+    <div class="wrap">
+      <div class="split" style="align-items:center">
+        <div>
+          <h1 class="h-xl" style="max-width:12ch">That page isn't here.</h1>
+          <p class="deck dim" style="margin:20px 0 28px;max-width:34ch">Either it moved or it never existed. Here is where most people were headed.</p>
+          <p style="display:flex;gap:14px;flex-wrap:wrap"><a class="btn" href="/">Go home</a><a class="btn line" href="/tools/">Try a free tool</a></p>
+          <p class="notfound-links"><a href="/services/">Services</a> <a href="/notes/">Notes</a> <a href="/apply/">Apply</a></p>
+        </div>
+        <div><Ill name="empty404" /></div>
+      </div>
+    </div>
+  </section>
+</Base>

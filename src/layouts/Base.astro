@@ -1,0 +1,117 @@
+---
+import '@fontsource/schibsted-grotesk/latin-400.css';
+import '@fontsource/schibsted-grotesk/latin-500.css';
+import '@fontsource/schibsted-grotesk/latin-600.css';
+import '@fontsource/schibsted-grotesk/latin-700.css';
+import '@fontsource/source-serif-4/latin-400.css';
+import '@fontsource/source-serif-4/latin-400-italic.css';
+import '@fontsource/source-serif-4/latin-600.css';
+import '@fontsource/source-serif-4/latin-600-italic.css';
+import sans400 from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-400-normal.woff2?url';
+import sans600 from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-600-normal.woff2?url';
+import sans700 from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-700-normal.woff2?url';
+import serif400 from '@fontsource/source-serif-4/files/source-serif-4-latin-400-normal.woff2?url';
+import serif400i from '@fontsource/source-serif-4/files/source-serif-4-latin-400-italic.woff2?url';
+import serif600i from '@fontsource/source-serif-4/files/source-serif-4-latin-600-italic.woff2?url';
+
+// Everything above the fold: body and UI sans, headings, wordmark, the italic deck and the serif body.
+const preloadFonts = [sans400, sans600, sans700, serif400, serif400i, serif600i];
+import '../styles/global.css';
+import '../styles/pages.css';
+import '../styles/site.css';
+import Footer from '../components/Footer.astro';
+import Nav from '../components/Nav.astro';
+import { SITE } from '../data/site';
+import { abs, breadcrumbs, ldString, professionalService, website } from '../lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Canonical path with leading and trailing slash, e.g. /tools/. */
+  path: string;
+  ogImage?: string;
+  ogAlt?: string;
+  ogType?: 'website' | 'article';
+  published?: Date;
+  modified?: Date;
+  noindex?: boolean;
+  crumbs?: [string, string][];
+  jsonLd?: Record<string, unknown>[];
+  /** Ground colour of the page header, so the nav melts into the first section. */
+  tone?: 'dark' | 'light';
+}
+
+const {
+  title,
+  description,
+  path,
+  ogImage = '/og/default.png',
+  ogAlt = 'ForwardWeb: web products, made findable',
+  ogType = 'website',
+  published,
+  modified,
+  noindex = false,
+  crumbs,
+  jsonLd = [],
+  tone = 'light',
+} = Astro.props;
+
+const canonical = abs(path);
+const is404 = noindex && path === '/404/';
+const image = abs(ogImage);
+const graph = [
+  ...(path === '/' ? [professionalService(), website()] : []),
+  ...(crumbs ? [breadcrumbs(crumbs)] : []),
+  ...jsonLd,
+];
+---
+
+<!doctype html>
+<html lang="en-CA">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {!is404 && <link rel="canonical" href={canonical} />}
+    {noindex && <meta name="robots" content="noindex,follow" />}
+    <meta name="theme-color" content="#0F3A2D" />
+
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="en_CA" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {!is404 && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogAlt} />
+    {published && <meta property="article:published_time" content={published.toISOString().slice(0, 10)} />}
+    {modified && <meta property="article:modified_time" content={modified.toISOString().slice(0, 10)} />}
+    {ogType === 'article' && <meta property="article:author" content={SITE.founder} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image:alt" content={ogAlt} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="ForwardWeb notes" href="/rss.xml" />
+    {preloadFonts.map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />)}
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    {graph.map((g) => <script type="application/ld+json" set:html={ldString(g)} />)}
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class={tone}><div class="wrap"><Nav /></div></header>
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import '../scripts/ill';
+    </script>
+  </body>
+</html>

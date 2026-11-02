@@ -1,0 +1,68 @@
+---
+import Base from '../../layouts/Base.astro';
+import Shot from '../../components/Shot.astro';
+import ToolThumb from '../../components/ToolThumb.astro';
+import { CAPTURE_DATE } from '../../data/work';
+---
+
+<Base
+  tone="light"
+  path="/work/"
+  title="Work: a case study, apps and free tools | ForwardWeb"
+  description="Three kinds of proof: a site I built and grew from almost nothing, apps I am building now, and free tools I wrote for my own work."
+  ogImage="/og/work.png"
+  crumbs={[['Home', '/'], ['Work', '/work/']]}
+>
+  <section class="light chead">
+    <div class="wrap">
+      <div class="in">
+        <div>
+          <h1 class="h-xl" style="max-width:16ch">Proof, in three kinds.</h1>
+        </div>
+        <p class="deck dim">I would rather show you something I built and measured than describe what I could do for you.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-top:8px">
+    <div class="wrap">
+      <a class="workcard" href="/work/tour-operator/">
+        <Shot shot="home" annotate sizes="(min-width: 860px) 55vw, 100vw" />
+        <div>
+          <p class="sm dim">Case study</p>
+          <h2 class="h-l" style="margin:8px 0 12px">From almost no traffic to a top source of bookings.</h2>
+          <p class="deck dim">A day-tour business I built and grew. Organic traffic up more than twenty times, with AI assistants a top source of bookings.</p>
+          <p class="tlink" style="margin-top:14px">Read the case study &rarr;</p>
+          <p class="sm dim" style="margin-top:10px">Captured from the live site on {CAPTURE_DATE}.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>In development</b>Two in progress, one planned.</p>
+        <div class="built">
+          <a href="/apps/"><b>A booking platform for studios</b><em>Demo</em><span>Pick a day and a time, with full days blocked. A small piece of the real logic.</span></a>
+          <a href="/apps/"><b>Dispatch for tour operators</b><em>Demo</em><span>Assign trips to drivers, with double-bookings blocked and explained.</span></a>
+          <a href="/apps/"><b>A patient app for health-tourism clinics</b><em>Early planning</em><span>On the drawing board, so no demo yet. Ask me about the approach on a call.</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="background:var(--paper-2)">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>Free tools</b>Written for my own work, open to everyone.</p>
+        <div class="toolstrip">
+          <a href="/tools/ai-visibility-check/"><ToolThumb name="check" /><span>AI visibility check</span></a>
+          <a href="/tools/robots-txt-checker/"><ToolThumb name="robots" /><span>AI crawler checker</span></a>
+          <a href="/tools/snippet-preview/"><ToolThumb name="snippet" /><span>Snippet preview</span></a>
+        </div>
+        <p style="margin-top:20px"><a class="tlink" href="/tools/">All six tools &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+</Base>

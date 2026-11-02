@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from './CtaBand.astro';
+import NotesChips from './NotesChips.astro';
+import NotesList from './NotesList.astro';
+import type { Note } from '../lib/notes';
+
+interface Props {
+  notes: Note[];
+  path: string;
+  title: string;
+  description: string;
+  h1: string;
+  deck: string;
+  current?: string;
+  page?: number;
+  pages?: number;
+  crumbs: [string, string][];
+}
+const { notes, path, title, description, h1, deck, current, page = 1, pages = 1, crumbs } = Astro.props;
+const prev = page > 1 ? (page === 2 ? '/notes/' : `/notes/page/${page - 1}/`) : null;
+const next = page < pages ? `/notes/page/${page + 1}/` : null;
+---
+
+<Base tone="light" path={path} title={title} description={description} ogImage="/og/notes.png" crumbs={crumbs}>
+  <section class="light chead">
+    <div class="wrap">
+      <div class="in">
+        <h1 class="h-xl" style="max-width:14ch">{h1}</h1>
+        <p class="deck dim">{deck}</p>
+      </div>
+      <NotesChips current={current} />
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-top:8px">
+    <div class="wrap">
+      {notes.length ? <NotesList notes={notes} /> : <p class="deck dim">Nothing here yet.</p>}
+      {(prev || next) && (
+        <nav class="pager" aria-label="Pages of notes">
+          {prev ? <a class="tlink" href={prev} rel="prev">&larr; Newer notes</a> : <span></span>}
+          {next && <a class="tlink" href={next} rel="next">Older notes &rarr;</a>}
+        </nav>
+      )}
+    </div>
+  </section>
+
+  <CtaBand title="Want this for yours?" text="Start with the audit: a fixed price, and a written plan you keep whether or not we work together." />
+</Base>

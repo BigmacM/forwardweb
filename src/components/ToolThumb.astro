@@ -1,0 +1,8 @@
+---
+import { tool } from '../lib/ill';
+
+interface Props { name: keyof typeof tool }
+const { name } = Astro.props;
+---
+
+<Fragment set:html={tool[name]} />

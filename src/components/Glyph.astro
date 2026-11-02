@@ -1,0 +1,8 @@
+---
+import { glyph } from '../lib/ill';
+
+interface Props { name: keyof typeof glyph }
+const { name } = Astro.props;
+---
+
+<Fragment set:html={glyph[name]} />

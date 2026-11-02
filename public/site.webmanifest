@@ -1,0 +1,10 @@
+{
+  "name": "ForwardWeb",
+  "short_name": "ForwardWeb",
+  "description": "Web products, made findable. Websites, search and AI visibility from Vaughan, Ontario.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#F3EFE6",
+  "theme_color": "#0F3A2D",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

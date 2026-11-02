@@ -1,0 +1,20 @@
+---
+import NotesIndexPage from '../../components/NotesIndexPage.astro';
+import { PER_PAGE, publishedNotes } from '../../lib/notes';
+
+
+const all = await publishedNotes();
+const pages = Math.max(1, Math.ceil(all.length / PER_PAGE));
+---
+
+<NotesIndexPage
+  notes={all.slice(0, PER_PAGE)}
+  page={1}
+  pages={pages}
+  path="/notes/"
+  title="Notes: what I test on my own sites | ForwardWeb"
+  description="Practical write-ups on AI visibility, robots.txt, website cost and search, from tests I ran on my own sites and projects, with dates."
+  h1="Notes from the bench."
+  deck="What I test on my own sites and projects, written up with dates. Short, specific, and checked."
+  crumbs={[['Home', '/'], ['Notes', '/notes/']]}
+/>

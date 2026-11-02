@@ -1,0 +1,32 @@
+---
+// The calendar is rendered at its final size on the server, so the script only wires up clicks and nothing grows
+// when it runs (that growth caused a layout shift).
+const BOOKED = [3, 4, 10, 17, 18, 24];
+const DAYS = Array.from({ length: 28 }, (_, n) => n + 1);
+const SLOTS = ['09:00', '11:30', '14:00', '16:30'];
+---
+
+<article class="win" data-cal>
+  <div class="wbar">Booking platform for studios<span class="tag amb">Demo</span></div>
+  <div class="wbody">
+    <h3 class="h-m">Pick a class day</h3>
+    <div class="nojs-msg"><p class="readout">This demo needs JavaScript. It is a small calendar where you pick a day and a time, and full days are blocked.</p></div>
+    <div class="needs-js">
+      <div class="cal" data-days>
+        {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d) => <span aria-hidden="true">{d}</span>)}
+        {DAYS.map((d) => (
+          BOOKED.includes(d)
+            ? <button type="button" data-d={d} aria-pressed="false" disabled aria-label={`Day ${d}, full`}>{d}</button>
+            : <button type="button" data-d={d} aria-pressed="false">{d}</button>
+        ))}
+      </div>
+      <div class="slots" data-slots role="group" aria-label="Time">
+        {SLOTS.map((t) => <button type="button" data-t={t} aria-pressed="false">{t}</button>)}
+      </div>
+      <p class="readout" data-out aria-live="polite">Pick a day. Struck-out days are full.</p>
+    </div>
+  </div>
+</article>
+<script>
+  import '../scripts/demos';
+</script>

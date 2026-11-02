@@ -1,0 +1,17 @@
+---
+interface Props { title: string; text: string; label?: string; href?: string; tone?: 'dark' | 'darker' }
+const { title, text, label = 'Request the audit', href = '/apply/#audit', tone = 'dark' } = Astro.props;
+---
+
+<section class={`${tone} sec`}>
+  <div class="wrap">
+    <div class="split">
+      <h2 class="h-l" style="max-width:16ch">{title}</h2>
+      <div>
+        <p class="deck" style="color:var(--mute);margin-bottom:26px;max-width:36ch">{text}</p>
+        <a class="btn" href={href}>{label}</a>
+        <slot />
+      </div>
+    </div>
+  </div>
+</section>

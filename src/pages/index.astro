@@ -1,0 +1,177 @@
+---
+import Base from '../layouts/Base.astro';
+import Apply from '../components/Apply.astro';
+import Avatar from '../components/Avatar.astro';
+import Board from '../components/Board.astro';
+import Calendar from '../components/Calendar.astro';
+import Check from '../components/Check.astro';
+import Cover from '../components/Cover.astro';
+import Ill from '../components/Ill.astro';
+import ServiceList from '../components/ServiceList.astro';
+import Shot from '../components/Shot.astro';
+import { SITE, TOOLS } from '../data/site';
+import { CAPTURE_DATE } from '../data/work';
+import { fmtMonth, publishedNotes } from '../lib/notes';
+
+const notes = (await publishedNotes()).slice(0, 3);
+---
+
+<Base
+  tone="dark"
+  path="/"
+  title="Websites that get found by Google and by AI | ForwardWeb"
+  description="I build web products and make them findable by search engines and AI assistants, for a small number of businesses at a time. Vaughan, Ontario. Fixed prices."
+>
+  <section class="hero dark" id="top">
+    <div class="wrap">
+      <div class="grid">
+        <div>
+          <h1 class="h-xl">Find out whether AI knows your business exists.</h1>
+          <p class="deck">I build and grow web products. This is the check I run before I quote anyone.</p>
+          <div class="cta">
+            <a class="btn" href="#check">Start the free check</a>
+            <div class="by">
+              <Avatar size={44} eager />
+              <div><b>Built by {SITE.founderShort}</b>{SITE.availability}</div>
+            </div>
+          </div>
+        </div>
+        <span id="check" class="anchor"></span>
+        <Check />
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec flowsec">
+    <div class="wrap">
+      <div class="head2">
+        <h2 class="h-l" style="max-width:18ch">How an assistant decides who to name.</h2>
+        <p class="deck dim" style="max-width:34ch">It is a chain, and a business can break it at any link. Most break it at the second.</p>
+      </div>
+      <div class="flow" data-ill role="group" aria-label="Four steps: someone asks, the assistant reads the web, weighs what it can verify, and names who it trusts">
+        <div class="fstep"><Ill name="flow.ask" /><h3>Someone asks</h3><p>A customer types what they need, in their own words, with no brand name.</p></div>
+        <div class="farrow" aria-hidden="true"><svg class="ill" viewBox="0 0 34 20"><path d="M2 10c10-4 18-4 28 0M24 4l6 6-6 6"></path></svg></div>
+        <div class="fstep"><Ill name="flow.crawl" /><h3>It reads the web, if you let it in</h3><p>Crawlers follow robots.txt. A blanket block means you never enter the story.</p></div>
+        <div class="farrow" aria-hidden="true"><svg class="ill" viewBox="0 0 34 20"><path d="M2 10c10-4 18-4 28 0M24 4l6 6-6 6"></path></svg></div>
+        <div class="fstep"><Ill name="flow.weigh" /><h3>It weighs what it can verify</h3><p>Structured data, consistent listings, reviews, and clear answers on your own pages.</p></div>
+        <div class="farrow" aria-hidden="true"><svg class="ill" viewBox="0 0 34 20"><path d="M2 10c10-4 18-4 28 0M24 4l6 6-6 6"></path></svg></div>
+        <div class="fstep"><Ill name="flow.answer" /><h3>It names who it trusts</h3><p>The answer cites its sources. Being cited is the new first page.</p></div>
+      </div>
+      <p class="fine">A simplified picture. Each assistant weighs sources differently.</p>
+    </div>
+  </section>
+
+  <section class="proof darker sec" id="work">
+    <div class="wrap">
+      <div class="grid">
+        <div>
+          <h2 class="big">A site I built from almost nothing. Organic traffic grew <b>more than twenty times</b>, and <b>AI assistants became a top source</b> of bookings.</h2>
+          <div class="stats">
+            <div><b class="num">20&times;+</b><span>organic traffic, start to now</span></div>
+            <div><b class="num">~5&times;</b><span>conversion from AI-assistant visitors vs organic</span></div>
+          </div>
+          <p style="margin-top:28px"><a class="btn" href="/work/tour-operator/">Read the case study</a></p>
+        </div>
+        <div>
+          <div class="devices">
+            <Shot shot="home" class="b1" annotate sizes="(min-width: 860px) 45vw, 100vw" />
+            <Shot shot="tour" class="b2" sizes="(min-width: 860px) 24vw, 0px" />
+          </div>
+          <p class="shotcap">Captured from the live site on {CAPTURE_DATE}. I built it, and I run its search and measurement.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" id="services">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>What I do</b>Six things, one person. I would rather do the right few for you than all six for anyone.</p>
+        <h2 class="sr">What I do</h2>
+        <ServiceList />
+      </div>
+    </div>
+  </section>
+
+  <section class="quote sec">
+    <div class="wrap">
+      <blockquote>A website nobody can find is a brochure in a drawer.</blockquote>
+      <div class="who">
+        <Avatar size={44} />
+        <span><b>{SITE.founderShort}</b>My own line, and why every project starts with the audit</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" id="apps">
+    <div class="wrap">
+      <div class="split">
+        <div class="stick">
+          <h2 class="h-l">Two things I'm building now, and one on the drawing board.</h2>
+          <p class="deck dim" style="margin-top:18px;max-width:30ch">The demos are small pieces of the real logic, and nothing in them is saved.</p>
+          <div class="nda2">
+            <b>On the drawing board</b>A patient app and website for a group of health-tourism clinics. It is in early planning, so there is no demo yet. Ask me about the approach on a call.
+          </div>
+        </div>
+        <div class="stack"><Calendar /><Board /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" id="tools" style="background:var(--paper-2)">
+    <div class="wrap">
+      <div class="head2">
+        <h2 class="h-l" style="max-width:18ch">Check it yourself first.</h2>
+        <p class="deck dim" style="max-width:38ch">Small tools I wrote because I kept needing them. They run in your browser and nothing you type is sent anywhere.</p>
+      </div>
+      <div class="tsplit">
+        <div class="win">
+          <div class="wbar">AI crawler checker<span class="tag">Runs in your browser</span></div>
+          <div class="wbody">
+            <h3 class="h-m">Is your robots.txt blocking AI?</h3>
+            <p class="dim" style="margin:6px 0 16px">Paste yours. See which AI crawlers can read you.</p>
+            <div class="scroll-x">
+              <table class="res">
+                <caption class="sr">Example result for three crawlers</caption>
+                <thead><tr><th>Crawler</th><th>Home page</th><th>/admin</th></tr></thead>
+                <tbody>
+                  <tr><td>GPTBot</td><td><span class="pill ok">Allowed</span></td><td><span class="pill warn">Reachable</span></td></tr>
+                  <tr><td>ClaudeBot</td><td><span class="pill no">Blocked</span></td><td><span class="pill no">Blocked</span></td></tr>
+                  <tr><td>PerplexityBot</td><td><span class="pill ok">Allowed</span></td><td><span class="pill no">Blocked</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="sm" style="margin-top:14px;color:var(--rust);font-weight:600">GPTBot has its own group, so it ignores your * rules.</p>
+            <p style="margin-top:16px"><a class="btn" href="/tools/robots-txt-checker/">Open the checker</a></p>
+          </div>
+        </div>
+        <div class="tl">
+          {TOOLS.filter((t) => t.slug !== 'robots-txt-checker').map((t) => (
+            <a href={`/tools/${t.slug}/`}><h3>{t.name}</h3><span class="go">Open</span><p>{t.short}</p></a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" id="notes">
+    <div class="wrap">
+      <div class="head2">
+        <h2 class="h-l">Notes</h2>
+        <a class="tlink" href="/notes/">All notes &rarr;</a>
+      </div>
+      <div class="ncols">
+        {notes.map((n) => (
+          <a href={`/notes/${n.id}/`}>
+            <Cover category={n.data.category} slug={n.id} />
+            <small>{n.data.category}, {fmtMonth(n.data.updatedAt ?? n.data.publishedAt)}</small>
+            <h3>{n.data.title}</h3>
+            <p>{n.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Apply source="/" />
+</Base>

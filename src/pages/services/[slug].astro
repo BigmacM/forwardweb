@@ -1,0 +1,94 @@
+---
+import Base from '../../layouts/Base.astro';
+import Apply from '../../components/Apply.astro';
+import Faq from '../../components/Faq.astro';
+import Glyph from '../../components/Glyph.astro';
+import Process from '../../components/Process.astro';
+import { SERVICE_PAGES } from '../../data/servicePages';
+import { fromPrice, TAX_NOTE } from '../../data/pricing';
+import { faqPage, service } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return SERVICE_PAGES.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props;
+const path = `/services/${p.slug}/`;
+---
+
+<Base
+  tone="dark"
+  path={path}
+  title={p.title}
+  description={p.description}
+  ogImage="/og/services.png"
+  crumbs={[['Home', '/'], ['Services', '/services/'], [p.name, path]]}
+  jsonLd={[service({ name: p.name, description: p.description, path, price: p.price }), faqPage(p.faq)]}
+>
+  <section class="dark sec shead">
+    <div class="wrap">
+      <p class="crumb"><a href="/services/">Services</a> &rsaquo; {p.name}</p>
+      <div class="hgrid">
+        <div>
+          <h1 class="h-xl" style="max-width:16ch">{p.h1}</h1>
+          <p class="deck" style="color:var(--mute);margin-top:20px;max-width:40ch">{p.deck}</p>
+          <p style="margin-top:28px;display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+            <a class="btn" href={p.cta.href}>{p.cta.label}</a>
+            <span class="pricetag"><b>{fromPrice(p.price)}</b> {TAX_NOTE}</span>
+          </p>
+        </div>
+        <div class="bigglyph" data-ill><Glyph name={p.glyph} /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>The plain answer</b>What it is, who it is for, and what it costs.</p>
+        <div class="story-copy">
+          {p.answer.map((t) => <p>{t}</p>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="background:var(--paper-2)">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>What it covers</b>The work, itemised, so the quote is easy to read.</p>
+        <ol class="rules">
+          {p.includes.map((i) => <li><span><b>{i.b}</b><span>{i.t}</span></span></li>)}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-bottom:0">
+    <div class="wrap">
+      <h2 class="h-l" style="max-width:20ch">How it runs.</h2>
+      <Process />
+    </div>
+  </section>
+
+  <section class="light sec">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>Evidence</b>Where you can check my work.</p>
+        <div class="built">
+          {p.evidence.map((e) => <a href={e.href}><b>{e.text}</b><em>{e.label}</em></a>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>Questions</b>The ones I get asked most.</p>
+        <Faq items={p.faq} open />
+      </div>
+    </div>
+  </section>
+
+  <Apply source={path} />
+</Base>

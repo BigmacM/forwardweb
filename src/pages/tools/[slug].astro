@@ -1,0 +1,92 @@
+---
+import Base from '../../layouts/Base.astro';
+import Check from '../../components/Check.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Faq from '../../components/Faq.astro';
+import ToolThumb from '../../components/ToolThumb.astro';
+import LlmsPanel from '../../components/tools/LlmsPanel.astro';
+import RobotsPanel from '../../components/tools/RobotsPanel.astro';
+import SchemaPanel from '../../components/tools/SchemaPanel.astro';
+import SnippetPanel from '../../components/tools/SnippetPanel.astro';
+import UtmPanel from '../../components/tools/UtmPanel.astro';
+import { TOOL_PAGES } from '../../data/tools';
+import { faqPage, webApplication } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return TOOL_PAGES.map((t, i) => ({
+    params: { slug: t.slug },
+    props: { t, next: [TOOL_PAGES[(i + 1) % TOOL_PAGES.length], TOOL_PAGES[(i + 2) % TOOL_PAGES.length]] },
+  }));
+}
+const { t, next } = Astro.props;
+const path = `/tools/${t.slug}/`;
+---
+
+<Base
+  tone="light"
+  path={path}
+  title={t.title}
+  description={t.description}
+  ogImage={`/og/tool-${t.slug}.png`}
+  ogAlt={`${t.name}: ${t.h1}`}
+  crumbs={[['Home', '/'], ['Free tools', '/tools/'], [t.name, path]]}
+  jsonLd={[webApplication({ name: t.name, description: t.description, path }), faqPage(t.faq)]}
+>
+  <section class="light chead">
+    <div class="wrap">
+      <p class="crumb"><a href="/tools/">Free tools</a> &rsaquo; {t.name}</p>
+      <div class="tphead">
+        <div>
+          <h1 class="h-xl" style="max-width:16ch">{t.h1}</h1>
+          <p class="deck dim" style="margin-top:20px;max-width:46ch">{t.deck}</p>
+        </div>
+        <div class="tpthumb" data-ill><ToolThumb name={t.thumb} /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-top:8px">
+    <div class="wrap">
+      <div class="tp">
+        <div class="tpmain">
+          {t.slug === 'ai-visibility-check' && <Check />}
+          {t.slug === 'robots-txt-checker' && <RobotsPanel />}
+          {t.slug === 'snippet-preview' && <SnippetPanel />}
+          {t.slug === 'schema-generator' && <SchemaPanel />}
+          {t.slug === 'llms-txt-generator' && <LlmsPanel />}
+          {t.slug === 'utm-builder' && <UtmPanel />}
+        </div>
+        <aside class="side-notes" aria-label="About this tool">
+          <h2>What this checks</h2>
+          <p>{t.checks}</p>
+          <h2>The gotcha</h2>
+          <p>{t.gotcha}</p>
+          <h2>What it can't see</h2>
+          <p>{t.cant}</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>Questions</b>Short answers.</p>
+        <Faq items={t.faq} open />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Tools find the problem. I fix it." text="The audit covers what no tool can see, at a fixed price.">
+    <a class="tlink" style="margin-left:18px" href="/tools/ai-visibility-check/">or take the 90-second check</a>
+  </CtaBand>
+
+  <section class="light sec" style="padding-block:48px">
+    <div class="wrap">
+      <p class="sm dim">Next tools</p>
+      <div class="toolstrip" data-ill>
+        {next.map((n) => <a href={`/tools/${n.slug}/`}><ToolThumb name={n.thumb} /><span>{n.name}</span></a>)}
+      </div>
+    </div>
+  </section>
+</Base>

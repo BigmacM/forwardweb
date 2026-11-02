@@ -1,11 +1,29 @@
 {
   "name": "forwardweb",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "ForwardWeb — web design, development & local SEO for Vaughan & the GTA. Static site.",
+  "description": "ForwardWeb: web products, made findable. Astro static site for forwardweb.ca.",
+  "engines": {
+    "node": ">=22.23.4"
+  },
   "scripts": {
-    "build": "node build.js",
-    "dev": "node build.js && cd dist && python -m http.server 4173"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "og": "node scripts/make-og.mjs"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.5",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/schibsted-grotesk": "^5.3.0",
+    "@fontsource/source-serif-4": "^5.3.1",
+    "astro": "^7.4.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^6.0.3"
   }
 }

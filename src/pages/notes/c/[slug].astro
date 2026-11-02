@@ -1,0 +1,25 @@
+---
+import NotesIndexPage from '../../../components/NotesIndexPage.astro';
+import { CATEGORIES, categorySlug, publishedNotes } from '../../../lib/notes';
+
+export async function getStaticPaths() {
+  const all = await publishedNotes();
+  const used = CATEGORIES.filter((c) => all.some((n) => categorySlug(n.data.category) === c.slug));
+  return used.map((c) => ({
+    params: { slug: c.slug },
+    props: { c, notes: all.filter((n) => categorySlug(n.data.category) === c.slug) },
+  }));
+}
+const { c, notes } = Astro.props;
+---
+
+<NotesIndexPage
+  notes={notes}
+  path={`/notes/c/${c.slug}/`}
+  title={`${c.name} notes | ForwardWeb`}
+  description={`${c.blurb} Notes from ForwardWeb, filed under ${c.name}.`}
+  h1={`${c.name} notes.`}
+  deck={c.blurb}
+  current={c.slug}
+  crumbs={[['Home', '/'], ['Notes', '/notes/'], [c.name, `/notes/c/${c.slug}/`]]}
+/>

@@ -1,0 +1,24 @@
+---
+import LeadForm from './LeadForm.astro';
+import { SITE } from '../data/site';
+
+interface Props { source: string }
+const { source } = Astro.props;
+---
+
+<section class="apply dark sec" id="apply">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <h2 class="h-l">Tell me what you're trying to fix.</h2>
+        <p class="deck" style="color:var(--mute);margin-top:20px;max-width:34ch">
+          {SITE.availability}, a few at a time, so I read every request. You'll hear back within two working days, with a yes, a no, or a better idea.
+        </p>
+      </div>
+      <div class="win light">
+        <div class="wbar">Apply or book a call<span>Goes to my inbox</span></div>
+        <LeadForm variant="apply" source={source} id="apply-form" />
+      </div>
+    </div>
+  </div>
+</section>

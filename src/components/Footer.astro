@@ -1,0 +1,39 @@
+---
+import { SITE } from '../data/site';
+---
+
+<footer class="darker">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="/" style="font-size:26px;color:var(--paper);padding:0">Forward<span>web</span></a>
+        <p class="dim" style="margin-top:14px;max-width:32ch">
+          Web products, made findable. Vaughan, Ontario. Working across Canada, the US and Europe.
+        </p>
+        <p class="dim sm" style="margin-top:14px">
+          <a href={`mailto:${SITE.email}`} style="display:inline;padding:0">{SITE.email}</a><br />
+          <a href={`tel:${SITE.phoneIntl}`} style="display:inline;padding:0">{SITE.phone}</a>
+        </p>
+      </div>
+      <div>
+        <p class="ftitle">Work</p>
+        <a href="/services/">Services</a>
+        <a href="/work/tour-operator/">Case study</a>
+        <a href="/apps/">In development</a>
+      </div>
+      <div>
+        <p class="ftitle">Read</p>
+        <a href="/tools/">Free tools</a>
+        <a href="/notes/">Notes</a>
+        <a href="/about/">About</a>
+      </div>
+      <div>
+        <p class="ftitle">Local</p>
+        <a href="/web-design-vaughan/">Web design in Vaughan</a>
+        <a href="/web-design-york-region/">York Region</a>
+        <a href="/apply/">Book a call</a>
+      </div>
+    </div>
+    <p class="dim sm">&copy; 2026 ForwardWeb / {SITE.founder}</p>
+  </div>
+</footer>

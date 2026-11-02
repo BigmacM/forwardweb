@@ -1,0 +1,73 @@
+---
+import { BOOKINGS, BUDGETS, STARTS } from '../data/form';
+import { fromPrice } from '../data/pricing';
+
+interface Props {
+  /** apply: budget and start. audit: online-bookings question and a fixed-price note. */
+  variant: 'apply' | 'audit';
+  /** The page the visitor is on, mailed to Max so he knows where it came from. */
+  source: string;
+  id: string;
+}
+const { variant, source, id } = Astro.props;
+const audit = variant === 'audit';
+---
+
+<form class="wbody form" method="post" action="/api/lead.php" data-lead novalidate id={id}>
+  <input type="hidden" name="type" value={variant} />
+  <input type="hidden" name="source" value={source} />
+  <input type="hidden" name="score" value="" />
+  <input type="hidden" name="fixes" value="" />
+  <div class="hp" aria-hidden="true">
+    <label for={`${id}-co`}>Leave this empty</label>
+    <input id={`${id}-co`} name="xq_hp_7" type="text" tabindex="-1" autocomplete="off" data-lpignore="true" data-form-type="other" />
+  </div>
+
+  {audit && <p class="note">The audit is a fixed price, {fromPrice('audit')} CAD plus HST. You get a written plan whether or not we work together.</p>}
+  <p class="note score-note" data-score-note hidden></p>
+
+  <div class="field">
+    <label for={`${id}-url`}>Your website</label>
+    <input id={`${id}-url`} name="url" inputmode="url" autocomplete="url" placeholder="yourbusiness.ca" data-rule="url" aria-describedby={`${id}-url-e`} />
+    <div class="err" id={`${id}-url-e`} role="alert"></div>
+  </div>
+  <div class="field">
+    <label for={`${id}-email`}>Email</label>
+    <input id={`${id}-email`} name="email" type="email" autocomplete="email" data-rule="email" aria-describedby={`${id}-email-e`} />
+    <div class="err" id={`${id}-email-e`} role="alert"></div>
+  </div>
+  {audit ? (
+    <div class="field">
+      <label for={`${id}-bk`}>Do you take bookings or leads online?</label>
+      <select id={`${id}-bk`} name="bookings">
+        <option value="" selected>Choose one</option>
+        {BOOKINGS.map((b) => <option>{b}</option>)}
+      </select>
+    </div>
+  ) : (
+    <div class="two">
+      <div class="field">
+        <label for={`${id}-budget`}>Budget</label>
+        <select id={`${id}-budget`} name="budget">
+          {BUDGETS.map((b) => <option selected={b === 'Not sure yet'}>{b}</option>)}
+        </select>
+      </div>
+      <div class="field">
+        <label for={`${id}-start`}>Start</label>
+        <select id={`${id}-start`} name="timeline">
+          {STARTS.map((s) => <option selected={s === 'Next 1 to 3 months'}>{s}</option>)}
+        </select>
+      </div>
+    </div>
+  )}
+  <div class="field">
+    <label for={`${id}-msg`}>What needs fixing? <span class="dim" style="font-weight:400">(optional)</span></label>
+    <textarea id={`${id}-msg`} name="msg" rows="3" maxlength="3000"></textarea>
+  </div>
+  <button class="btn" type="submit" data-submit>{audit ? 'Request the audit' : 'Send to Max'}</button>
+  <p class="hint" data-status role="status" aria-live="polite">No newsletter and no auto-reply sequence.</p>
+</form>
+
+<script>
+  import '../scripts/form';
+</script>

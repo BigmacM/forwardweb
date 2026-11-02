@@ -1,0 +1,8 @@
+---
+import { annot, type Annotation } from '../lib/ill';
+
+interface Props { rings: Annotation[] }
+const { rings } = Astro.props;
+---
+
+<Fragment set:html={annot(rings)} />

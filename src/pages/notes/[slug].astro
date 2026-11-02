@@ -1,0 +1,95 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Avatar from '../../components/Avatar.astro';
+import Cover from '../../components/Cover.astro';
+import { SITE } from '../../data/site';
+import { blogPosting } from '../../lib/seo';
+import { categorySlug, fmtDate, isoDate, publishedNotes, readMinutes } from '../../lib/notes';
+
+export async function getStaticPaths() {
+  const all = await publishedNotes();
+  return all.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, next: all[i + 1] ?? all[0] },
+  }));
+}
+
+const { entry, next } = Astro.props;
+const { Content, headings } = await render(entry);
+const d = entry.data;
+const path = `/notes/${entry.id}/`;
+const toc = headings.filter((h) => h.depth === 2);
+const modified = d.updatedAt ?? d.publishedAt;
+const mins = readMinutes(entry.body);
+---
+
+<Base
+  tone="light"
+  path={path}
+  title={`${d.seoTitle ?? d.title} | ForwardWeb`}
+  description={d.description}
+  ogImage={`/og/note-${categorySlug(d.category)}.png`}
+  ogAlt={d.title}
+  ogType="article"
+  published={d.publishedAt}
+  modified={modified}
+  crumbs={[['Home', '/'], ['Notes', '/notes/'], [d.title, path]]}
+  jsonLd={[blogPosting({ title: d.title, description: d.description, path, published: d.publishedAt, modified, image: `/og/note-${categorySlug(d.category)}.png` })]}
+>
+  <article>
+    <header class="light">
+      <div class="wrap ahead">
+        <div class="hgrid">
+          <div>
+            <p class="sm dim crumb"><a href="/notes/">Notes</a> &rsaquo; <a href={`/notes/c/${categorySlug(d.category)}/`}>{d.category}</a></p>
+            <h1 class="h-xl" style="margin-top:16px">{d.title}</h1>
+            {d.standfirst && <p class="deck dim" style="margin-top:20px;max-width:44ch">{d.standfirst}</p>}
+            <div class="byl">
+              <Avatar size={48} class="byl-img" />
+              <span><b>{d.author}</b><br />Founder, ForwardWeb</span>
+              <span>Published <time datetime={isoDate(d.publishedAt)}>{fmtDate(d.publishedAt)}</time></span>
+              <span>Updated <time datetime={isoDate(modified)}>{fmtDate(modified)}</time></span>
+              <span>{mins} min read</span>
+            </div>
+          </div>
+          <figure class="acover" aria-hidden="true"><Cover category={d.category} slug={entry.id} tone="dark" /></figure>
+        </div>
+      </div>
+    </header>
+
+    <div class="light" style="border-top:1px solid var(--line)">
+      <div class="wrap lay">
+        <aside class="toc" aria-label="On this page">
+          <b>On this page</b>
+          {toc.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
+        </aside>
+        <div class="prose">
+          {d.summary && (
+            <div class="short">
+              <b>The short version</b>
+              <ul>{d.summary.map((s) => <li>{s}</li>)}</ul>
+            </div>
+          )}
+          <Content />
+        </div>
+        <div></div>
+        <aside class="auth" aria-label="About the author">
+          <Avatar size={72} class="auth-img" />
+          <div>
+            <b class="h-m" style="font-size:22px">{SITE.founder}</b>
+            <p class="dim">I build websites and run search and AI visibility work from Vaughan, Ontario. I write up what I test on my own sites and projects, with dates.</p>
+            <p style="margin-top:10px"><a class="tlink" href="/about/">About me</a> <a class="tlink" href="/apply/" style="margin-left:18px">Work with me</a></p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </article>
+
+  <section class="dark sec" style="padding-block:48px">
+    <div class="wrap">
+      <p class="dim sm">Read next</p>
+      <a class="h-l" style="text-decoration:none;display:block;margin-top:8px;max-width:22ch" href={`/notes/${next.id}/`}>{next.data.title}</a>
+    </div>
+  </section>
+</Base>

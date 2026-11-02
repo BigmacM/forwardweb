@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import ToolThumb from '../../components/ToolThumb.astro';
+import { TOOL_PAGES } from '../../data/tools';
+
+const feature = TOOL_PAGES.filter((t) => t.slug === 'ai-visibility-check' || t.slug === 'robots-txt-checker');
+const rest = TOOL_PAGES.filter((t) => !feature.includes(t));
+const label: Record<string, string> = { 'ai-visibility-check': 'Start the check', 'robots-txt-checker': 'Open the checker' };
+const blurb: Record<string, string> = {
+  'ai-visibility-check': 'Eight questions about your site and listings. You get a score and the three fixes I\'d make first, written the way I\'d say them.',
+  'robots-txt-checker': 'See which AI crawlers can read you, and the rule that quietly undoes your own blocks: a bot with its own group ignores your * rules.',
+};
+const rowBlurb: Record<string, string> = {
+  'snippet-preview': 'Your title and description as Google shows them, measured in pixels rather than guessed characters.',
+  'schema-generator': 'LocalBusiness and Service JSON-LD you can paste into your site, checked as you type.',
+  'llms-txt-generator': 'Build the file in a minute. My honest note: no major assistant has confirmed it uses the file.',
+  'utm-builder': 'Consistent campaign links, with a guard so Facebook and facebook stop splitting your reports.',
+};
+---
+
+<Base
+  tone="dark"
+  path="/tools/"
+  title="Free tools: AI visibility, robots.txt, schema | ForwardWeb"
+  description="Six free tools that run in your browser: an AI visibility check, a robots.txt AI crawler checker, snippet preview, schema, llms.txt and UTM builders. No signup."
+  ogImage="/og/tools.png"
+  crumbs={[['Home', '/'], ['Free tools', '/tools/']]}
+>
+  <section class="dark">
+    <div class="wrap thead">
+      <h1 class="h-xl">Free tools. No signup. Nothing sent.</h1>
+      <p class="deck" style="color:var(--mute);margin-top:20px;max-width:40ch">Small utilities I wrote because I kept needing them. Everything runs in your browser.</p>
+      <div class="promise"><span>Paste in, never fetched</span><span>No account or email gate</span><span>Built and maintained by me</span></div>
+    </div>
+  </section>
+
+  <section class="light sec">
+    <div class="wrap">
+      <div class="feat" data-ill>
+        {feature.map((t) => (
+          <article class="win">
+            <div class="wbar">{t.name}<span class="tag">{t.tag}</span></div>
+            <div class="wbody">
+              <ToolThumb name={t.thumb} />
+              <h2 class="h-m">{t.h1}</h2>
+              <p class="dim" style="margin:8px 0 22px;max-width:40ch">{blurb[t.slug]}</p>
+              <a class="btn" href={`/tools/${t.slug}/`}>{label[t.slug]}</a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="row" style="margin-top:clamp(48px,7vw,88px)">
+        <p class="margin"><b>Also</b>Four more, each one a small job done properly.</p>
+        <div class="tl thumbs">
+          {rest.map((t) => (
+            <a href={`/tools/${t.slug}/`}>
+              <ToolThumb name={t.thumb} />
+              <h3>{t.name}</h3>
+              <span class="go">Open</span>
+              <p>{rowBlurb[t.slug]}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Tools find the problem. I fix it." text="The audit covers what no tool can see, at a fixed price." />
+</Base>

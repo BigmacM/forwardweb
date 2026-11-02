@@ -1,0 +1,38 @@
+---
+---
+
+<div class="win" data-utm>
+  <div class="wbar">UTM link builder<span class="tag">Runs in your browser</span></div>
+  <div class="wbody">
+    <div class="nojs-msg"><p class="readout">This builder needs JavaScript. A UTM link is your page address plus ?utm_source=...&amp;utm_medium=...&amp;utm_campaign=..., all lowercase with no spaces.</p></div>
+    <div class="needs-js">
+      <div class="form">
+        <div class="field">
+          <label for="ut-url">Page address</label>
+          <input id="ut-url" data-f="url" inputmode="url" placeholder="https://yourbusiness.ca/offer/" autocomplete="off" />
+          <div class="err" data-e="url" role="alert"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="ut-src">Source (where it appears)</label><input id="ut-src" data-f="source" placeholder="newsletter" autocomplete="off" /><div class="err" data-e="source" role="alert"></div></div>
+          <div class="field"><label for="ut-med">Medium (the channel type)</label><input id="ut-med" data-f="medium" placeholder="email" autocomplete="off" /><div class="err" data-e="medium" role="alert"></div></div>
+        </div>
+        <div class="field"><label for="ut-cam">Campaign</label><input id="ut-cam" data-f="campaign" placeholder="spring-launch" autocomplete="off" /><div class="err" data-e="campaign" role="alert"></div></div>
+        <div class="two">
+          <div class="field"><label for="ut-term">Term (optional)</label><input id="ut-term" data-f="term" autocomplete="off" /><div class="err" data-e="term" role="alert"></div></div>
+          <div class="field"><label for="ut-con">Content (optional)</label><input id="ut-con" data-f="content" autocomplete="off" /><div class="err" data-e="content" role="alert"></div></div>
+        </div>
+      </div>
+      <div class="toolbar"><button type="button" class="linkbtn" data-fix>Fix the names for me</button></div>
+      <h2 class="h-m" style="margin-top:22px">Your link</h2>
+      <pre class="code wrap-code" data-out tabindex="0" aria-label="Generated link"></pre>
+      <div class="toolbar">
+        <button type="button" class="btn" data-copy>Copy the link</button>
+        <span class="hint" data-state role="status" aria-live="polite">Add a page address, a source, a medium and a campaign.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../../scripts/tools/utm';
+</script>

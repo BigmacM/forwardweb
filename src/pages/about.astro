@@ -1,0 +1,76 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Apply from '../components/Apply.astro';
+import Process from '../components/Process.astro';
+import portrait from '../assets/img/max/portrait.jpg';
+import { SITE } from '../data/site';
+import { person } from '../lib/seo';
+
+const path = '/about/';
+---
+
+<Base
+  tone="dark"
+  path={path}
+  title="About Maksut Ozcan | ForwardWeb"
+  description="I'm Maksut Ozcan, a web developer and search specialist in Vaughan, Ontario. One person builds, optimizes and measures, so nobody explains my work to you secondhand."
+  ogImage="/og/about.png"
+  ogAlt="Maksut Ozcan, founder of ForwardWeb"
+  crumbs={[['Home', '/'], ['About', path]]}
+  jsonLd={[{ '@context': 'https://schema.org', '@type': 'ProfilePage', mainEntity: person() }]}
+>
+  <section class="dark">
+    <div class="wrap abh">
+      <div class="abg">
+        <figure class="ph">
+          <Picture src={portrait} formats={['webp']} fallbackFormat="jpg" widths={[360, 720]} sizes="(min-width: 860px) 360px, 260px" alt="Maksut Ozcan" loading="eager" quality={78} />
+        </figure>
+        <div class="story">
+          <h1 class="h-xl" style="max-width:13ch">One person, accountable for the result.</h1>
+          <p style="margin-top:26px;color:var(--mute)">I'm {SITE.founder}, and I live in Vaughan, Ontario. I work with businesses across Canada, the US and Europe.</p>
+          <p style="color:var(--mute)">I build the site, I do the search work, and I read the analytics afterwards, so nobody explains my work to you secondhand.</p>
+          <p style="color:var(--mute)">I build my own products and grow them before I advise anyone else. The first went from almost nothing to a top booking source. Others are in development. What I learn there is what I recommend to you.</p>
+          <p style="margin-top:30px"><a class="btn" href="/apply/">Book a call</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-bottom:0">
+    <div class="wrap">
+      <h2 class="h-l" style="max-width:20ch">How a project runs.</h2>
+      <Process />
+    </div>
+  </section>
+
+  <section class="light sec">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>How I work</b>Five rules I hold myself to.</p>
+        <ol class="rules">
+          <li><span><b>Fixed scope, fixed price</b><span>You know the cost before we start, and what it covers.</span></span></li>
+          <li><span><b>One person, start to finish</b><span>The person you brief is the person who builds it.</span></span></li>
+          <li><span><b>I measure, then I tell you</b><span>If something didn't work, you hear it from me, with the numbers.</span></span></li>
+          <li><span><b>Few projects, on purpose</b><span>I take a small number of projects so each gets real time. I'm taking projects now.</span></span></li>
+          <li><span><b>You keep everything</b><span>The plan, the code and the accounts are yours, whether or not we continue.</span></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="background:var(--paper-2)">
+    <div class="wrap">
+      <div class="split">
+        <h2 class="h-l" style="max-width:12ch">What I've built.</h2>
+        <div class="built">
+          <a href="/work/tour-operator/"><b>A site I built and grew</b><em>Case study</em><span>Organic traffic up more than twenty times, with AI assistants a top booking source.</span></a>
+          <a href="/apps/"><b>Apps in development</b><em>Demos</em><span>A studio booking platform and a dispatch system, both with playable demos, and a patient app for a health-tourism clinic group in early planning.</span></a>
+          <a href="/tools/"><b>Six free tools</b><em>Try them</em><span>The utilities I wrote for my own work, open to everyone.</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Apply source={path} />
+</Base>

@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { SITE } from '../data/site';
+import { fromPrice } from '../data/pricing';
+
+const path = '/apply/';
+---
+
+<Base
+  tone="light"
+  path={path}
+  title="Request the audit or start a project | ForwardWeb"
+  description="Request a fixed-price AI visibility audit or tell me about a project. I read every request and reply within two working days with a yes, a no, or a better idea."
+  crumbs={[['Home', '/'], ['Apply', path]]}
+>
+  <section class="light chead">
+    <div class="wrap">
+      <div class="in">
+        <h1 class="h-xl" style="max-width:15ch">Tell me what you're trying to fix.</h1>
+        <p class="deck dim">{SITE.availability}. I read every request myself and reply within two working days, with a yes, a no, or a better idea.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-top:8px">
+    <div class="wrap">
+      <div class="twoforms">
+        <div class="win" id="audit">
+          <div class="wbar">Request the audit<span>{fromPrice('audit')} CAD plus HST</span></div>
+          <LeadForm variant="audit" source={path + '#audit'} id="audit-form" />
+        </div>
+        <div class="win" id="project">
+          <div class="wbar">Start a project or book a call<span>Goes to my inbox</span></div>
+          <LeadForm variant="apply" source={path + '#project'} id="project-form" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="background:var(--paper-2)">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>What happens next</b>No sales sequence. A person reads it.</p>
+        <ol class="rules">
+          <li><span><b>I read your request</b><span>Within two working days, usually sooner.</span></span></li>
+          <li><span><b>I reply with a yes, a no, or a better idea</b><span>If I'm not the right fit, I'll say so and point you somewhere better.</span></span></li>
+          <li><span><b>We talk, then you get a fixed quote</b><span>In writing, before any work starts.</span></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+</Base>
