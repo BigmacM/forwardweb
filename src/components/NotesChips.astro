@@ -1,0 +1,13 @@
+---
+import { CATEGORIES, categorySlug, publishedNotes } from '../lib/notes';
+
+interface Props { current?: string }
+const { current } = Astro.props;
+// Only categories that have a published note get a chip, so no link leads to an empty page.
+const used = new Set((await publishedNotes()).map((n) => categorySlug(n.data.category)));
+---
+
+<nav class="chips" aria-label="Note categories">
+  <a href="/notes/" aria-current={current === undefined ? 'page' : undefined}>All</a>
+  {CATEGORIES.filter((c) => used.has(c.slug)).map((c) => <a href={`/notes/c/${c.slug}/`} aria-current={current === c.slug ? 'page' : undefined}>{c.name}</a>)}
+</nav>

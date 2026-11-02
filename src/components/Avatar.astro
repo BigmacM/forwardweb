@@ -1,0 +1,10 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/img/max/portrait.jpg';
+
+interface Props { size: number; class?: string }
+const { size, class: cls = 'avatar' } = Astro.props;
+// Displayed as a round crop; the source is cropped to 3:4 and CSS centres the face.
+---
+
+<Image src={portrait} width={size * 2} height={Math.round(size * 2 * 1.333)} widths={[size * 2]} alt="" class={cls} loading="lazy" format="webp" quality={72} />

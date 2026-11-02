@@ -1,0 +1,49 @@
+---
+import { CHECK_QUESTIONS } from '../data/check';
+---
+
+<div class="win light" data-check id="check-win" aria-label="AI visibility check">
+  <div class="wbar">AI visibility check<span data-step>Eight questions</span></div>
+  <div class="wbody">
+    <div class="nojs-msg">
+      <p><b>This check needs JavaScript.</b> Here are the eight questions, so you can work through them on paper. Score two for yes, one for partly, none for no or not sure.</p>
+      <ol class="fix">
+        {CHECK_QUESTIONS.map((q) => <li>{q.q}</li>)}
+      </ol>
+      <p class="hint">12 or more is a strong base. 6 to 11 is findable, not yet recommended. 5 or fewer, AI assistants cannot see you yet. <a href="/apply/#audit">Request the audit</a> for the written version.</p>
+    </div>
+    <div class="needs-js">
+      <div data-form>
+        <div class="meters" data-meters aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="run"><span>Your readings</span><span data-run>Answer to start</span></div>
+        <h2 class="q" data-q></h2>
+        <p class="why" data-why></p>
+        <div class="opts" role="group" aria-label="Your answer">
+          <button type="button" class="opt" data-v="yes" aria-pressed="false">Yes</button>
+          <button type="button" class="opt" data-v="partly" aria-pressed="false">Partly</button>
+          <button type="button" class="opt" data-v="no" aria-pressed="false">No</button>
+          <button type="button" class="opt" data-v="unsure" aria-pressed="false">Not sure</button>
+        </div>
+        <div class="wfoot">
+          <button type="button" class="linkbtn" data-back aria-disabled="true">Back</button>
+          <span>Nothing leaves your browser</span>
+        </div>
+        <p class="sr" data-live role="status" aria-live="polite"></p>
+      </div>
+      <div class="result" data-result>
+        <div class="meters" data-meters aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="score tab" data-score>0</div>
+        <h3 tabindex="-1" data-band></h3>
+        <p class="voice">What I'd fix first, in this order:</p>
+        <ol class="fix" data-fix></ol>
+        <a class="btn" href="/apply/#audit">Request the audit</a>
+        <button type="button" class="linkbtn" data-restart style="margin-left:10px">Start again</button>
+        <p class="hint" style="margin-top:12px">A self-check, not an audit. It sees what you tell it, not what I would find from outside.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../scripts/check';
+</script>

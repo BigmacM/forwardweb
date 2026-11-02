@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import Apply from './Apply.astro';
+import Faq from './Faq.astro';
+import { SERVICES } from '../data/services';
+import { moneyShort, TAX_NOTE } from '../data/pricing';
+import { faqPage, service } from '../lib/seo';
+import { fillPrices } from '../lib/tokens.mjs';
+
+interface Props {
+  path: string;
+  title: string;
+  description: string;
+  h1: string;
+  deck: string;
+  area: string;
+  places: string[];
+  intro: string[];
+  where: string[];
+  faq: { q: string; a: string }[];
+  crumb: string;
+}
+const { path, title, description, h1, deck, area, places, intro, where, crumb } = Astro.props;
+const faq = Astro.props.faq.map((f) => ({ q: f.q, a: fillPrices(f.a) }));
+---
+
+<Base
+  tone="dark"
+  path={path}
+  title={title}
+  description={description}
+  ogImage="/og/default.png"
+  crumbs={[['Home', '/'], [crumb, path]]}
+  jsonLd={[service({ name: `Web design and AI visibility in ${area}`, description, path, price: 'websites', area }), faqPage(faq)]}
+>
+  <section class="dark sec shead">
+    <div class="wrap">
+      <p class="crumb"><a href="/">Home</a> &rsaquo; {crumb}</p>
+      <h1 class="h-xl" style="max-width:16ch">{h1}</h1>
+      <p class="deck" style="color:var(--mute);margin-top:20px;max-width:42ch">{deck}</p>
+      <p style="margin-top:28px"><a class="btn" href="/apply/">Book a call</a></p>
+    </div>
+  </section>
+
+  <section class="light sec">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>The plain answer</b>Who I am, who I work with, and where.</p>
+        <div class="story-copy">
+          {intro.map((t) => <p>{t}</p>)}
+          <p class="places">{places.join(', ')}.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="background:var(--paper-2)">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>What it costs</b>The same prices for everyone, local or not.</p>
+        <div class="pricelist">
+          {SERVICES.map((s) => (
+            <a href={s.page ?? `/services/#${s.id}`}><span>{s.name}</span><b>{s.lead ? 'Audit ' : ''}from {moneyShort(s.price)}</b></a>
+          ))}
+          <p class="fine">{TAX_NOTE}. Fixed quote before any work starts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>Proof</b>A site I built and grew.</p>
+        <div>
+          <p class="big-q" style="max-width:22ch">Organic traffic up more than twenty times, and AI assistants a top source of bookings.</p>
+          <p style="margin-top:20px"><a class="btn" href="/work/tour-operator/">Read the case study</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="background:var(--paper-2)">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>Where I work</b>Based in Vaughan, Ontario.</p>
+        <div class="story-copy">
+          {where.map((t) => <p>{t}</p>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>Questions</b>The ones I get asked most.</p>
+        <Faq items={faq} open />
+      </div>
+    </div>
+  </section>
+
+  <Apply source={path} />
+</Base>

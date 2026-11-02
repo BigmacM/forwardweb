@@ -1,0 +1,87 @@
+---
+import Base from '../../layouts/Base.astro';
+import Apply from '../../components/Apply.astro';
+import Glyph from '../../components/Glyph.astro';
+import Process from '../../components/Process.astro';
+import ServiceList from '../../components/ServiceList.astro';
+import { service } from '../../lib/seo';
+import { SERVICES } from '../../data/services';
+import { fromPrice, money } from '../../data/pricing';
+
+const path = '/services/';
+const offers = SERVICES.map((s) => service({ name: s.name, description: s.summary, path: s.page ?? `/services/#${s.id}`, price: s.price }));
+---
+
+<Base
+  tone="dark"
+  path={path}
+  title="Services and prices | ForwardWeb"
+  description="AI visibility audits, SEO, websites, web apps, dashboards and AI automation from one person in Vaughan, Ontario. Fixed quotes, CAD plus HST, from-prices shown."
+  ogImage="/og/services.png"
+  crumbs={[['Home', '/'], ['Services', path]]}
+  jsonLd={offers}
+>
+  <section class="dark sec shead">
+    <div class="wrap">
+      <h1 class="h-xl" style="max-width:14ch">Six services. One person. Prices up front.</h1>
+      <p class="deck" style="color:var(--mute);margin-top:20px;max-width:40ch">Every project starts with a fixed quote. The figures below are the starting point, in Canadian dollars plus HST.</p>
+    </div>
+  </section>
+
+  <section class="light sec">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>The six</b>If you only do one, make it the audit. It tells us both what the rest should be.</p>
+        <ServiceList />
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="background:var(--paper-2)" id="dashboards">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>Smaller builds</b>Two services that live here for now, not on pages of their own.</p>
+        <div class="smalls">
+          <article id="dashboards-detail">
+            <Glyph name="dash" />
+            <h2 class="h-m">Dashboards, {fromPrice('dashboards')}</h2>
+            <p>One screen that answers whether it is working, built from your own data: bookings, enquiries, spend, whatever you check by hand now. I build it, you read it, and it stays yours.</p>
+          </article>
+          <article id="automation">
+            <Glyph name="auto" />
+            <h2 class="h-m">AI automation, {fromPrice('automation')}</h2>
+            <p>Agent workflows that take repeat marketing work off your plate, such as drafting, checking and reporting. You approve what goes out. Nothing publishes on its own.</p>
+          </article>
+          <article id="care">
+            <Glyph name="web" />
+            <h2 class="h-m">Care plan, {money('care')} per month</h2>
+            <p>For sites I build. It keeps the site updated and fixed after launch. The written quote spells out exactly what it covers, so you are never guessing.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-bottom:0">
+    <div class="wrap">
+      <h2 class="h-l" style="max-width:20ch">How an engagement runs.</h2>
+      <Process />
+    </div>
+  </section>
+
+  <section class="light sec">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>What I don't do</b>A shorter list is a better one.</p>
+        <ol class="rules">
+          <li><span><b>Guarantee a ranking or a citation</b><span>No one controls what Google or an assistant shows. I control the work and I report the result.</span></span></li>
+          <li><span><b>Hide the price</b><span>You get a fixed quote in writing before anything starts.</span></span></li>
+          <li><span><b>Hand you to someone else</b><span>The person you brief is the person who builds it.</span></span></li>
+          <li><span><b>Lock you in</b><span>The plan, the code and the accounts are yours.</span></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <Apply source={path} />
+</Base>

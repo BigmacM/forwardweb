@@ -1,0 +1,29 @@
+---
+import NotesIndexPage from '../../../components/NotesIndexPage.astro';
+import { PER_PAGE, publishedNotes } from '../../../lib/notes';
+
+
+
+export async function getStaticPaths() {
+  const all = await publishedNotes();
+  const pages = Math.ceil(all.length / PER_PAGE);
+  // Page 1 is /notes/. This route only produces pages 2 and up, so it is empty until there are 13+ notes.
+  return Array.from({ length: Math.max(0, pages - 1) }, (_, i) => i + 2).map((n) => ({
+    params: { page: String(n) },
+    props: { notes: all.slice((n - 1) * PER_PAGE, n * PER_PAGE), page: n, pages },
+  }));
+}
+const { notes, page, pages } = Astro.props;
+---
+
+<NotesIndexPage
+  notes={notes}
+  page={page}
+  pages={pages}
+  path={`/notes/page/${page}/`}
+  title={`Notes, page ${page} | ForwardWeb`}
+  description="Older notes on AI visibility, robots.txt, website cost and search from ForwardWeb."
+  h1="Notes from the bench."
+  deck="What I test on my own sites and clients' sites, written up with dates."
+  crumbs={[['Home', '/'], ['Notes', '/notes/'], [`Page ${page}`, `/notes/page/${page}/`]]}
+/>

@@ -1,0 +1,143 @@
+---
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Ill from '../../components/Ill.astro';
+import Shot from '../../components/Shot.astro';
+import { CAPTURE_DATE } from '../../data/work';
+
+const path = '/work/tour-operator/';
+---
+
+<Base
+  tone="light"
+  path={path}
+  title="Case study: from almost no traffic to top bookings | ForwardWeb"
+  description="How I took a day-tour business site from almost no traffic to more than twenty times the organic visits, with AI assistants becoming a top source of bookings."
+  ogImage="/og/case.png"
+  ogAlt="Case study: from almost no traffic to a top source of bookings"
+  crumbs={[['Home', '/'], ['Work', '/work/'], ['Case study', path]]}
+>
+  <section class="light chead">
+    <div class="wrap">
+      <div class="in">
+        <div>
+          <p class="sm dim" style="margin-bottom:14px">Case study</p>
+          <h1 class="h-xl">From almost no traffic to a top source of bookings, found by Google and by AI.</h1>
+        </div>
+        <p class="deck dim">A day-tour business I built and grew. Site, search and measurement, all me. Here is what moved the numbers, and what didn't.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-top:8px">
+    <div class="wrap">
+      <p class="sm dim">The work itself, captured from the live site on {CAPTURE_DATE}.</p>
+      <div class="gallery">
+        <figure class="gal">
+          <div class="devs"><Shot shot="home" annotate sizes="(min-width: 860px) 30vw, 100vw" /></div>
+          <h3>Home page</h3>
+          <p>One clear booking path above the fold.</p>
+        </figure>
+        <figure class="gal">
+          <div class="devs"><Shot shot="tour" annotate sizes="(min-width: 860px) 30vw, 100vw" /></div>
+          <h3>Tour page</h3>
+          <p>Everything a buyer asks, answered on the page, with structured data underneath.</p>
+        </figure>
+        <figure class="gal">
+          <div class="devs"><Shot shot="blog" annotate sizes="(min-width: 860px) 30vw, 100vw" /></div>
+          <h3>Blog post</h3>
+          <p>A direct answer first, a named source, and a date. Written to be quoted.</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-block:40px 24px;border-top:1px solid var(--line)">
+    <div class="wrap">
+      <h2 class="h-l" style="max-width:22ch">Four stages, in the order I did them.</h2>
+      <ol class="tline" data-ill>
+        <li><b>Baseline</b><span>Measurement set up before anything else.</span></li>
+        <li><b>Foundation</b><span>Fast, readable, indexable pages.</span></li>
+        <li><b>Content</b><span>Answers to what buyers actually ask.</span></li>
+        <li><b>AI visibility</b><span>Crawlers let in, assistant referrals tracked.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="light" style="border-top:1px solid var(--line)">
+    <div class="wrap story">
+      <div class="sticky">
+        <figure class="win chart">
+          <div class="wbar">Organic sessions, indexed<span id="stg" data-stage>All four stages</span></div>
+          <div class="wbody" style="padding:18px 20px 14px">
+            <Ill name="chart" />
+            <p class="cap">Relative scale from Google Analytics, no session counts. The line shows direction and size of change, not visits.</p>
+          </div>
+        </figure>
+      </div>
+      <div class="steps">
+        <div class="step" data-i="0" data-n="Baseline">
+          <span class="kick">Stage 1: Baseline</span>
+          <h2 class="h-l">A new site almost nobody could find.</h2>
+          <p>The business had a booking idea and a trickle of visitors. Search sent almost nothing. Before touching design I set up measurement, so every later change could be traced to a result.</p>
+        </div>
+        <div class="step" data-i="1" data-n="Foundation">
+          <span class="kick">Stage 2: Foundation</span>
+          <h2 class="h-l">Fast, readable, indexable.</h2>
+          <p>Technical SEO first, because nothing else counts without it.</p>
+          <ul>
+            <li>Clean structure, one canonical per page, a real sitemap</li>
+            <li>Structured data for the business, tours and FAQs</li>
+            <li>Pages that load fast on a phone</li>
+          </ul>
+        </div>
+        <div class="step" data-i="2" data-n="Content">
+          <span class="kick">Stage 3: Content</span>
+          <h2 class="h-l">Answer what buyers actually ask.</h2>
+          <p>Published on a schedule, around the questions people type before they book: cost, timing, what is included. Every post has a named author and a date.</p>
+        </div>
+        <div class="step" data-i="3" data-n="AI visibility">
+          <span class="kick">Stage 4: AI visibility</span>
+          <h2 class="h-l">Get named by the assistants.</h2>
+          <p>I opened the site to AI crawlers on purpose, fixed what was blocking them, wrote short direct answers they can quote, and tracked assistant referrals as their own source in GA4. That last step is how I found out they were sending bookings.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark sec">
+    <div class="wrap">
+      <div class="row">
+        <p class="margin"><b>The surprise</b>Fewer visitors, much warmer.</p>
+        <div>
+          <h2 class="h-l" style="max-width:20ch">Visitors from AI assistants booked at about five times the rate of organic visitors.</h2>
+          <div class="bars" id="bars" style="margin-top:32px;max-width:640px" role="img" aria-label="AI assistant visitors convert at about 5 times the organic rate.">
+            <div class="r"><span>Organic search</span><div class="t"><i style="--w:20%"></i><b style="color:#fff">1&times;</b></div></div>
+            <div class="r"><span>AI assistants</span><div class="t"><i class="hi" style="--w:100%"></i><b>~5&times;</b></div></div>
+          </div>
+          <p class="dim sm" style="margin-top:14px">Conversion rate, relative. A small sample, so read it as a direction, not a forecast.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <p class="sm dim">What didn't work</p>
+          <h2 class="h-l" style="margin-top:10px;max-width:14ch">I would rather tell you now.</h2>
+        </div>
+        <div>
+          <p class="big-q">Paid lead forms bought the wrong people. Plenty of leads came in, almost none booked, so I stopped them and moved the money to search and content.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Want this for yours?" text="Start with the audit: a fixed price, and a written plan you keep whether or not we work together." />
+</Base>
+
+<script>
+  import '../../scripts/case';
+</script>

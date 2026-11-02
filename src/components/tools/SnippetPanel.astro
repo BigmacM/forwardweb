@@ -1,0 +1,43 @@
+---
+---
+
+<div class="win" data-snippet>
+  <div class="wbar">Snippet preview<span class="tag">Runs in your browser</span></div>
+  <div class="wbody">
+    <div class="nojs-msg"><p class="readout">This tool needs JavaScript to measure text in pixels. As a rule of thumb, keep titles under about 60 characters and descriptions under about 155.</p></div>
+    <div class="needs-js">
+      <div class="field">
+        <label for="sn-url">Page address</label>
+        <input id="sn-url" data-url value="https://yourbusiness.ca/services/" spellcheck="false" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="sn-title">Title</label>
+        <input id="sn-title" data-title value="Plumber in Vaughan, Ontario | Your Business" autocomplete="off" />
+        <div class="meter"><i data-tbar></i></div>
+        <p class="hint" data-tinfo role="status" aria-live="polite"></p>
+      </div>
+      <div class="field">
+        <label for="sn-desc">Description</label>
+        <textarea id="sn-desc" data-desc rows="3">Licensed plumbers serving Vaughan, Woodbridge and Maple. Upfront quotes, same-day callouts and a written guarantee on every job.</textarea>
+        <div class="meter"><i data-dbar></i></div>
+        <p class="hint" data-dinfo role="status" aria-live="polite"></p>
+      </div>
+      <h3 class="h-m" style="margin-top:22px">Search result</h3>
+      <div class="serp" data-serp aria-live="polite">
+        <div class="serp-url" data-surl></div>
+        <div class="serp-title" data-stitle></div>
+        <div class="serp-desc" data-sdesc></div>
+      </div>
+      <h3 class="h-m" style="margin-top:22px">As a source in an AI answer</h3>
+      <div class="aicard">
+        <p class="aicard-a">Based on what I can see, a licensed plumber in Vaughan with upfront quotes is <span class="aicard-n">[1]</span>.</p>
+        <p class="aicard-s"><span class="aicard-n">[1]</span> <span data-atitle></span><br /><span data-aurl></span></p>
+      </div>
+      <p class="hint" style="margin-top:10px">An illustration. Each assistant formats citations its own way, and the answer text here is made up.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../../scripts/tools/snippet';
+</script>

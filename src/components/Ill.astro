@@ -1,0 +1,14 @@
+---
+import * as ill from '../lib/ill';
+
+interface Props { name: 'chart' | 'empty404' | `flow.${keyof typeof ill.flow}` | `proc.${keyof typeof ill.proc}`; annotated?: boolean }
+const { name, annotated = true } = Astro.props;
+const [group, key] = name.split('.');
+const svg =
+  name === 'chart' ? ill.chart(annotated)
+  : name === 'empty404' ? ill.empty404
+  : group === 'flow' ? ill.flow[key as keyof typeof ill.flow]
+  : ill.proc[key as keyof typeof ill.proc];
+---
+
+<Fragment set:html={svg} />

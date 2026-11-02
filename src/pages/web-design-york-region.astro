@@ -1,0 +1,30 @@
+---
+import LocalPage from '../components/LocalPage.astro';
+
+---
+
+<LocalPage
+  path="/web-design-york-region/"
+  crumb="Web design in York Region"
+  title="Web design in York Region: Markham, Richmond Hill | ForwardWeb"
+  description="Web design, search and AI visibility for businesses in Markham, Richmond Hill and Thornhill. One developer from Vaughan, fixed prices, CAD plus HST."
+  h1="Web design for York Region businesses."
+  deck="From Vaughan, I work with businesses in Markham, Richmond Hill and Thornhill: websites, search and AI visibility, done by one person."
+  area="York Region"
+  places={['Markham', 'Richmond Hill', 'Thornhill']}
+  intro={[
+    'York Region businesses compete in a crowded market where customers have plenty of choice, and plenty of reasons to open a second tab. The ones that get chosen are usually easy to find, easy to understand and easy to contact.',
+    'That is what I build. A fast, plain website, a Google Business Profile that is complete and consistent, and pages that answer the questions buyers ask, so both search engines and AI assistants can read you and name you.',
+    'I work with businesses in:',
+  ]}
+  where={[
+    'I am based in Vaughan, which sits next to Markham, Richmond Hill and Thornhill, so an in-person meeting is easy when it is useful. Most projects run by video call and shared documents.',
+    'Markham, Richmond Hill and Thornhill used to have a page each on this site. They now share this one, because the work I do for them is the same.',
+  ]}
+  faq={[
+    { q: 'Do you work with businesses outside Vaughan?', a: 'Yes. I work with businesses in York Region, across Canada, and in the US and Europe. Most of it runs remotely.' },
+    { q: 'Can we meet in person?', a: 'Usually, yes, around York Region and Toronto. A video call works just as well for most projects.' },
+    { q: 'Do you build local SEO for Markham or Richmond Hill businesses?', a: 'Yes. Local SEO is part of the SEO retainer and the website build: Google Business Profile, consistent listings and local structured data.' },
+    { q: 'How much does it cost?', a: 'Websites start from {{price:websites}} CAD plus HST, and the AI visibility audit starts from {{price:audit}}. The services page has the full list.' },
+  ]}
+/>

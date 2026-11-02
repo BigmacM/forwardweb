@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import Board from '../../components/Board.astro';
+import Calendar from '../../components/Calendar.astro';
+import CtaBand from '../../components/CtaBand.astro';
+---
+
+<Base
+  tone="light"
+  path="/apps/"
+  title="In development: booking and dispatch apps | ForwardWeb"
+  description="Three products I am building now for real businesses. Try the booking and dispatch demos. Nothing in them is saved, and the third is under NDA."
+  ogImage="/og/work.png"
+  crumbs={[['Home', '/'], ['In development', '/apps/']]}
+>
+  <section class="light chead">
+    <div class="wrap">
+      <div class="in">
+        <h1 class="h-xl" style="max-width:16ch">Three things I'm building now. Two you can try.</h1>
+        <p class="deck dim">Private products for real businesses. The demos are small pieces of the real logic. Nothing in them is saved, and no real client data is used.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="light sec" style="padding-top:8px">
+    <div class="wrap">
+      <div class="split">
+        <div class="stick">
+          <h2 class="h-l">A booking platform for studios.</h2>
+          <p class="deck dim" style="margin-top:14px;max-width:32ch">Classes, holds and confirmations, with full days blocked so nobody books a day that is gone.</p>
+          <h2 class="h-l" style="margin-top:48px">Dispatch for tour operators.</h2>
+          <p class="deck dim" style="margin-top:14px;max-width:32ch">Assign trips to drivers. Try to double-book a driver and the board stops you and says why.</p>
+          <div class="nda2">
+            <b>The third</b>A patient app and website for a group of health-tourism clinics. Under NDA, so no demo and no names. Ask me about the approach on a call.
+          </div>
+        </div>
+        <div class="stack"><Calendar /><Board /></div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Build one with me." text="If your business runs on a spreadsheet and a group chat, I can show you what the smaller, fitted version looks like." label="Book a call" href="/apply/" />
+</Base>

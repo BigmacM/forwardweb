@@ -1,0 +1,80 @@
+---
+---
+
+<div class="win" data-schema>
+  <div class="wbar">Schema generator<span class="tag">Runs in your browser</span></div>
+  <div class="wbody">
+    <div class="nojs-msg"><p class="readout">This generator needs JavaScript. It builds the JSON-LD in your browser from the details you type.</p></div>
+    <div class="needs-js">
+      <fieldset class="seg">
+        <legend class="sr">What to describe</legend>
+        <label><input type="radio" name="sc-mode" value="business" checked /> A local business</label>
+        <label><input type="radio" name="sc-mode" value="service" /> A service</label>
+      </fieldset>
+
+      <div class="form" style="margin-top:16px">
+        <div class="field" data-for="business">
+          <label for="sc-type">Business type</label>
+          <select id="sc-type" name="type">
+            <option value="LocalBusiness">Local business (general)</option>
+            <option value="ProfessionalService">Professional service</option>
+            <option value="HomeAndConstructionBusiness">Home and construction</option>
+            <option value="MedicalBusiness">Medical business</option>
+            <option value="Store">Store</option>
+            <option value="FoodEstablishment">Restaurant or cafe</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="sc-name">Name</label>
+          <input id="sc-name" name="name" autocomplete="off" data-req />
+          <div class="err" data-err="name" role="alert"></div>
+        </div>
+        <div class="field">
+          <label for="sc-url">Website</label>
+          <input id="sc-url" name="url" placeholder="https://yourbusiness.ca/" inputmode="url" autocomplete="off" data-req />
+          <div class="err" data-err="url" role="alert"></div>
+        </div>
+        <div class="field">
+          <label for="sc-desc">Description</label>
+          <textarea id="sc-desc" name="description" rows="3"></textarea>
+          <div class="err" data-err="description" role="alert"></div>
+        </div>
+
+        <div data-for="business" class="form">
+          <div class="two">
+            <div class="field"><label for="sc-tel">Phone</label><input id="sc-tel" name="telephone" placeholder="+1-416-555-0100" inputmode="tel" autocomplete="off" /><div class="err" data-err="telephone" role="alert"></div></div>
+            <div class="field"><label for="sc-mail">Email</label><input id="sc-mail" name="email" inputmode="email" autocomplete="off" /><div class="err" data-err="email" role="alert"></div></div>
+          </div>
+          <div class="field"><label for="sc-street">Street address</label><input id="sc-street" name="street" autocomplete="off" /></div>
+          <div class="two">
+            <div class="field"><label for="sc-city">City</label><input id="sc-city" name="city" autocomplete="off" /></div>
+            <div class="field"><label for="sc-region">Province or state</label><input id="sc-region" name="region" autocomplete="off" /></div>
+          </div>
+          <div class="two">
+            <div class="field"><label for="sc-postal">Postal code</label><input id="sc-postal" name="postal" autocomplete="off" /></div>
+            <div class="field"><label for="sc-country">Country code</label><input id="sc-country" name="country" value="CA" maxlength="2" autocomplete="off" /><div class="err" data-err="country" role="alert"></div></div>
+          </div>
+        </div>
+
+        <div data-for="service" class="form" hidden>
+          <div class="field"><label for="sc-provider">Provider (your business name)</label><input id="sc-provider" name="provider" autocomplete="off" /></div>
+          <div class="field"><label for="sc-area">Area served</label><input id="sc-area" name="area" placeholder="Vaughan, Ontario" autocomplete="off" /></div>
+          <div class="field"><label for="sc-price">Starting price (optional)</label><input id="sc-price" name="price" inputmode="decimal" placeholder="1500" autocomplete="off" /><div class="err" data-err="price" role="alert"></div></div>
+          <div class="field"><label for="sc-cur">Currency</label><input id="sc-cur" name="currency" value="CAD" maxlength="3" autocomplete="off" /></div>
+        </div>
+      </div>
+
+      <h3 class="h-m" style="margin-top:26px">Your JSON-LD</h3>
+      <p class="hint" data-state role="status" aria-live="polite">Add a name and a website address to see your code.</p>
+      <pre class="code" data-out tabindex="0" aria-label="Generated JSON-LD"></pre>
+      <div class="toolbar">
+        <button type="button" class="btn" data-copy>Copy the code</button>
+        <span class="hint" data-copystate role="status" aria-live="polite"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../../scripts/tools/schema';
+</script>

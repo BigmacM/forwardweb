@@ -1,0 +1,19 @@
+<article class="win" data-board>
+  <div class="wbar">Dispatch for tour operators<span class="tag amb">Demo</span></div>
+  <div class="wbody">
+    <h3 class="h-m">Assign the trips</h3>
+    <div class="nojs-msg"><p class="readout">This demo needs JavaScript. It is a small board where you assign trips to drivers, and a double-booking is blocked with an explanation.</p></div>
+    <div class="needs-js">
+      <p class="dim sm" style="margin-top:4px">Select a trip, then a driver. Try to double-book someone.</p>
+      <div class="board">
+        <div class="lane"><b>Unassigned</b><div class="pool" data-pool></div></div>
+        <div data-lanes style="display:grid;gap:8px"></div>
+      </div>
+      <p class="readout" data-out aria-live="polite">Select a trip, then a driver.</p>
+      <button type="button" class="linkbtn" data-reset>Reset</button>
+    </div>
+  </div>
+</article>
+<script>
+  import '../scripts/demos';
+</script>

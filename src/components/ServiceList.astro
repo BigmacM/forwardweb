@@ -1,0 +1,20 @@
+---
+import Glyph from './Glyph.astro';
+import { SERVICES } from '../data/services';
+import { moneyShort, money, TAX_NOTE } from '../data/pricing';
+
+interface Props { note?: boolean }
+const { note = true } = Astro.props;
+---
+
+<div class="svc" data-ill>
+  {SERVICES.map((s) => (
+    <a href={s.page ?? `/services/#${s.id}`} class={s.lead ? 'lead' : undefined}>
+      <Glyph name={s.glyph} />
+      <h3>{s.name}</h3>
+      <p>{s.summary}</p>
+      <span class="from">{s.lead ? 'Audit from' : 'From'}<b>{moneyShort(s.price)}</b></span>
+    </a>
+  ))}
+  {note && <p class="fine">{TAX_NOTE}. Every project starts with a fixed quote. Care plan for built sites: {money('care')}/mo.</p>}
+</div>

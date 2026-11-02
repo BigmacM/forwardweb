@@ -1,0 +1,38 @@
+---
+---
+
+<div class="win" data-robots>
+  <div class="wbar">AI crawler checker<span class="tag">Paste only</span></div>
+  <div class="wbody">
+    <div class="nojs-msg"><p class="readout">This checker needs JavaScript. It reads the robots.txt text you paste and matches it against each crawler in your browser, and nothing is sent anywhere.</p></div>
+    <div class="needs-js">
+      <div class="field">
+        <label for="rt">Paste your robots.txt (yoursite.ca/robots.txt)</label>
+        <textarea id="rt" class="mono" rows="10" spellcheck="false" autocomplete="off" data-input></textarea>
+      </div>
+      <div class="field" style="max-width:320px">
+        <label for="rp">Also test this path</label>
+        <input id="rp" value="/admin" data-path spellcheck="false" autocomplete="off" />
+      </div>
+      <div class="toolbar">
+        <button type="button" class="btn" data-run>Check it</button>
+        <button type="button" class="linkbtn" data-example>Use an example</button>
+        <button type="button" class="linkbtn" data-clear>Clear</button>
+        <span class="hint" data-summary role="status" aria-live="polite"></span>
+      </div>
+      <div data-gotcha></div>
+      <p class="empty" data-empty>Paste your robots.txt to begin. The table fills in as soon as there is something to read.</p>
+      <div class="scroll-x" data-table hidden>
+        <table class="res">
+          <caption class="sr">Which AI crawlers your robots.txt lets in</caption>
+          <thead><tr><th>Crawler</th><th>Run by</th><th>Home page</th><th data-pathhead>/admin</th><th>Why</th></tr></thead>
+          <tbody data-rows></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../../scripts/tools/robots';
+</script>
