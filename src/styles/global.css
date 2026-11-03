@@ -322,10 +322,14 @@ body{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org
 .chartill .mkk{fill:var(--paper);stroke:var(--pine);stroke-width:3}.chartill .mkk.on{fill:var(--amber);stroke:var(--ink)}
 /* 5. tool thumbnails */
 .tth{color:var(--pine);width:100%;height:auto}
+/* tool art sits on a plate, so a thumbnail reads as a finished object, not loose strokes */
+.tplate{display:grid;place-items:center;aspect-ratio:16/10;padding:11% 13%;background:var(--paper-2);border:1px solid var(--line);border-radius:12px;color:var(--pine);transition:border-color .2s var(--ease),background-color .2s var(--ease)}
+.onalt .tplate{background:var(--paper)}
+a:hover .tplate{border-color:var(--pine)}
 .tl.thumbs a{grid-template-columns:132px minmax(0,1fr) auto!important;align-items:center;gap:4px 22px;padding:18px 0}
-.tl.thumbs .tth{grid-row:1/3;grid-column:1;width:132px}
+.tl.thumbs .tplate{grid-row:1/3;grid-column:1;width:132px}
 .tl.thumbs h3{grid-column:2;grid-row:1;align-self:end}.tl.thumbs p{grid-column:2!important;grid-row:2;align-self:start}.tl.thumbs .go{grid-column:3!important;grid-row:1/3!important}
-.feat .tth{max-width:300px;margin-bottom:18px}
+.feat .tplate{max-width:340px;margin-bottom:22px}
 /* 6. process path */
 .proc{list-style:none;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,32px);margin-top:36px}
 .proc li{position:relative}
@@ -352,7 +356,7 @@ body{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org
   .tline{grid-template-columns:minmax(0,1fr);gap:20px}
   .tline::before{left:10px;right:auto;top:0;bottom:0;border-top:0;border-left:1.25px dashed var(--ink-2)}
   .tline li{padding:0 0 0 38px}.tline li::before{top:0}
-  .tl.thumbs a{grid-template-columns:88px minmax(0,1fr)!important;gap:2px 16px}.tl.thumbs .tth{width:88px}.tl.thumbs .go{display:none}
+  .tl.thumbs a{grid-template-columns:88px minmax(0,1fr)!important;gap:2px 16px}.tl.thumbs .tplate{width:88px}.tl.thumbs .go{display:none}
   .proc{grid-template-columns:minmax(0,1fr);gap:26px}
   .proc li{padding-left:84px;min-height:64px}.proc .pgl{position:absolute;left:0;top:0}
   .proc li:not(:last-child)::after{left:32px;right:auto;top:72px;bottom:-22px;border-top:0;border-left:1.25px dashed var(--ink-2)}

@@ -15,7 +15,7 @@ import { faqPage, webApplication } from '../../lib/seo';
 export function getStaticPaths() {
   return TOOL_PAGES.map((t, i) => ({
     params: { slug: t.slug },
-    props: { t, next: [TOOL_PAGES[(i + 1) % TOOL_PAGES.length], TOOL_PAGES[(i + 2) % TOOL_PAGES.length]] },
+    props: { t, next: [1, 2, 3].map((k) => TOOL_PAGES[(i + k) % TOOL_PAGES.length]) },
   }));
 }
 const { t, next } = Astro.props;
@@ -83,9 +83,9 @@ const path = `/tools/${t.slug}/`;
 
   <section class="light sec" style="padding-block:48px">
     <div class="wrap">
-      <p class="sm dim">Next tools</p>
+      <div class="morehead"><h2 class="h-m">More free tools</h2><a class="tlink" href="/tools/">All six tools &rarr;</a></div>
       <div class="toolstrip" data-ill>
-        {next.map((n) => <a href={`/tools/${n.slug}/`}><ToolThumb name={n.thumb} /><span>{n.name}</span></a>)}
+        {next.map((n) => <a href={`/tools/${n.slug}/`}><ToolThumb name={n.thumb} /><span>{n.name}</span><p>{n.deck}</p><em class="go">Open &rarr;</em></a>)}
       </div>
     </div>
   </section>

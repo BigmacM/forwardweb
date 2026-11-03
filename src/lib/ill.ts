@@ -60,11 +60,15 @@ const proc = {
 const tth = (inner: string, label?: string) => SVG('0 0 160 90', inner, label, 'tth');
 const tool = {
   robots: tth(`<circle cx="14" cy="16" r="5"/><circle cx="14" cy="34" r="5"/><circle cx="14" cy="52" r="5"/><circle cx="14" cy="70" r="5" class="acc"/>
-    <path d="M78 8v26M78 52v30"/><path class="dash" d="M20 16h52M20 34h52M20 70h52"/><path d="M84 70h60" class="acc"/><path d="M150 70l-6-5M150 70l-6 5" class="acc"/><path class="hl" d="M22 52h54"/><path d="M60 46l-8 6 8 6"/>`, 'Diagram: robots.txt works like a filter. Some crawlers are turned back, one passes through its own door.'),
+    <path d="M84 6v56M84 78v6"/><path class="dash" d="M20 16h56M20 34h56M20 52h56"/><path class="hl" d="M74 12l6 8M80 12l-6 8M74 30l6 8M80 30l-6 8M74 48l6 8M80 48l-6 8"/>
+    <path class="acc" d="M20 70h100"/><path class="acc" d="M120 70l-6-5M120 70l-6 5"/>
+    <rect x="128" y="48" width="28" height="36" rx="4"/><path class="hl" d="M134 58h16M134 66h12M134 74h14"/>`, 'Diagram: robots.txt works like a wall. Three crawlers are stopped, one passes through the gap and reaches your page.'),
   snippet: tth(`<circle cx="14" cy="14" r="6"/><path class="hl" d="M26 12h46"/><path d="M14 34h110"/><path class="hl" d="M14 50h132M14 60h104"/><path class="dash" d="M14 78h130"/><path d="M14 74v8M144 74v8"/><path class="acc" d="M70 34h54"/>`, 'Diagram: a search result with a pixel ruler under the title.'),
   schema: tth(`<circle cx="80" cy="45" r="13" class="acc"/><circle cx="24" cy="18" r="8"/><circle cx="136" cy="18" r="8"/><circle cx="24" cy="72" r="8"/><circle cx="136" cy="72" r="8"/><path d="M32 22l37 15M128 22L91 37M32 68l37-15M128 68L91 53"/>`, 'Diagram: a business at the centre of a node graph with service, address and review nodes.'),
-  utm: tth(`<rect x="4" y="8" width="152" height="28" rx="14"/><path class="hl" d="M18 22h30"/><path d="M56 22h2M68 22h2M96 22h2M122 22h2"/><path d="M6 46v6h48v-6M60 46v6h46v-6"/><path class="acc" d="M112 46v6h44v-6"/><text x="8" y="72" class="lb">source</text><text x="62" y="72" class="lb">medium</text><text x="114" y="72" class="lb">campaign</text>`, 'Diagram: a link broken into source, medium and campaign parts.'),
-  check: tth(`<path d="M12 80V50M30 80V30M48 80V58M66 80V22M84 80V44M102 80V62M120 80V34" /><path class="acc" d="M138 80V12"/><path class="hl" d="M6 80h148"/>`, 'Diagram: eight meters of different heights, one highlighted.'),
+  utm: tth(`<rect x="4" y="8" width="152" height="28" rx="14"/><path class="hl" d="M18 22h30"/><path d="M56 22h2M68 22h2M96 22h2M122 22h2"/><path d="M6 46v6h48v-6M60 46v6h46v-6"/><path class="acc" d="M112 46v6h44v-6"/><g text-anchor="middle" style="font-size:10px"><text x="30" y="70" class="lb" style="font-size:10px">source</text><text x="83" y="70" class="lb" style="font-size:10px">medium</text><text x="134" y="70" class="lb" style="font-size:10px">campaign</text></g>`, 'Diagram: a link broken into source, medium and campaign parts.'),
+  check: tth(`<path d="M24 80a56 56 0 0 1 112 0"/>
+    <path class="hl" d="M18 80h-6M80 18v-6M36.2 36.2l-4.3-4.3M123.8 36.2l4.3-4.3M142 80h6"/>
+    <path class="acc" d="M24 80a56 56 0 0 1 89 -45.3"/><path d="M80 80l22-30"/><circle cx="80" cy="80" r="6" class="accf"/>`, 'Diagram: a score gauge with the needle past the halfway mark.'),
   llms: tth(`<path d="M34 8h60l22 22v52H34z"/><path d="M94 8v22h22"/><path class="hl" d="M44 40h34M44 50h52M44 60h40"/><path class="acc" d="M44 72h28"/>`, 'Diagram: a plain text file with a heading and a list of links.')
 };
 
