@@ -96,7 +96,7 @@ const RAW: ServicePageData[] = [
     price: 'websites',
     title: 'Custom website design and build | ForwardWeb',
     description:
-      'Fast, plain, hand-built websites that turn visits into enquiries, built and optimized for search and AI visibility by one person. From {{price:websites}} CAD plus HST.',
+      'Fast, plain, hand-built websites that turn visits into enquiries, built and optimized for search and AI visibility by one person. From {{price:websites}} plus tax.',
     h1: 'A website built to turn a visit into an enquiry.',
     deck: 'Hand-built, fast and plain. One person designs it, builds it and sets it up to be found.',
     answer: [
@@ -116,7 +116,7 @@ const RAW: ServicePageData[] = [
       { label: 'Free tool', href: '/tools/snippet-preview/', text: 'Check how your title and description will look in search.' },
     ],
     faq: [
-      { q: 'How much does a website cost?', a: 'Websites start from {{price:websites}} CAD plus HST. The quote depends on the number of pages and what they need to do, and it is fixed before work begins. My note on Toronto market pricing is in the Notes section.' },
+      { q: 'How much does a website cost?', a: 'Websites start from {{price:websites}} plus tax. The quote depends on the number of pages and what they need to do, and it is fixed before work begins. My note on Toronto market pricing is in the Notes section.' },
       { q: 'What happens after launch?', a: 'You can look after it yourself, or take the care plan at {{price:care}}. It covers hosting oversight, updates and backups, uptime monitoring, a monthly report and up to two hours of small edits.' },
       { q: 'Do you use templates or page builders?', a: 'I build by hand. That is why the sites are light and why I can control the structure that search and assistants read.' },
       { q: 'Can you redesign my existing site without losing my rankings?', a: 'Yes. A redesign starts with a list of the pages that earn traffic and enquiries today, and the redirects that protect them.' },
@@ -130,13 +130,13 @@ const RAW: ServicePageData[] = [
     price: 'webApps',
     title: 'Custom web apps for booking, dispatch and ops | ForwardWeb',
     description:
-      'Custom booking, dispatch and operations software for businesses outgrowing spreadsheets, built by one developer. From {{price:webApps}} CAD plus HST, fixed quote first.',
+      'Custom booking, dispatch and operations software for businesses outgrowing spreadsheets, built by one developer. From {{price:webApps}} plus tax, fixed quote first.',
     h1: 'Software for the part of your business that lives in a spreadsheet.',
     deck: 'Booking, dispatch and operations tools, built around how your business runs and priced before I start.',
     answer: [
       'When a business outgrows spreadsheets, off-the-shelf software often fits badly: you pay for features you do not use and work around the ones you need. I build the smaller thing that fits.',
       "I am building two products of this kind right now, a booking platform for studios and a dispatch system for tour operators, and you can try small demos of both on the In development page. They are private products, and I don't name the businesses.",
-      'Web apps start from {{price:webApps}} CAD plus HST. The quote is fixed once we have agreed what version one does.',
+      'Web apps start from {{price:webApps}} plus tax. The quote is fixed once we have agreed what version one does.',
     ],
     includes: [
       { b: 'Booking', t: 'Availability, holds and confirmations that block a double-booking instead of discovering it later.' },
@@ -146,7 +146,7 @@ const RAW: ServicePageData[] = [
     ],
     evidence: [
       { label: 'In development', href: '/apps/', text: 'Two playable demos of the logic, and what is still under NDA.' },
-      { label: 'Dashboards', href: '/services/#dashboards', text: 'Smaller reporting builds, from {{price:dashboards}} CAD plus HST.' },
+      { label: 'Dashboards', href: '/services/#dashboards', text: 'Smaller reporting builds, from {{price:dashboards}} plus tax.' },
     ],
     faq: [
       { q: 'Why from {{price:webApps}}?', a: 'Because software that handles bookings, payments or dispatch has to be right. The price covers design, build, testing and handover for a first version that does one job properly.' },

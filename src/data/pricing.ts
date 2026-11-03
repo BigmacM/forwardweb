@@ -1,6 +1,7 @@
 /**
  * The only place prices live. Everything a visitor reads (pages, JSON-LD, forms)
- * imports from here. All figures are CAD, plus HST, and are "from" prices.
+ * imports from here. All figures are "from" prices, plus tax. No currency is shown on the
+ * site (Max, 2026-11-03): Canadian clients are quoted in CAD, US clients in USD.
  * Confirmed by Max on 2026-11-02.
  */
 export type PriceKey = 'audit' | 'websites' | 'webApps' | 'dashboards' | 'automation' | 'retainer' | 'care';
@@ -22,8 +23,7 @@ export const PRICES: Record<PriceKey, Price> = {
   care: { amount: 300, per: 'month' },
 };
 
-export const CURRENCY = 'CAD';
-export const TAX_NOTE = 'CAD plus HST';
+export const TAX_NOTE = 'plus tax';
 
 const nf = new Intl.NumberFormat('en-CA');
 

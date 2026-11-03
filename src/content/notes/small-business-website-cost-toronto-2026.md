@@ -48,7 +48,7 @@ The same word covers very different jobs. These are the things that actually mov
 
 ## Where my prices sit
 
-All of mine are in Canadian dollars plus HST, and all are "from" prices, because the quote depends on the job.
+All of mine are "from" prices, plus tax,, because the quote depends on the job.
 
 | What | My price | Against the bands above |
 |---|---|---|
@@ -77,4 +77,4 @@ I will be straight about the care plan. At {{price:care}} a month it sits above 
 
 If your site is mostly an online business card, a few thousand dollars from a competent studio or freelancer is a sensible budget, and a template-based build can be a reasonable choice. If the site has to do real work, such as win customers from search, take bookings or run part of your operations, plan for more, and judge the quote by what it includes, not by how low it is.
 
-If you are not sure which of those you are, start with the audit. It starts at {{price:audit}} plus HST, gives you a written plan whether or not we work together, and tells you what the site actually needs. You can [request it here](/apply/#audit). If you would rather get quotes from a few people first, do that, and use the questions above to compare them on the same terms.
+If you are not sure which of those you are, start with the audit. It starts at {{price:audit}} plus tax, gives you a written plan whether or not we work together, and tells you what the site actually needs. You can [request it here](/apply/#audit). If you would rather get quotes from a few people first, do that, and use the questions above to compare them on the same terms.

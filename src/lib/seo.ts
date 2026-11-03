@@ -1,5 +1,5 @@
 import { SITE } from '../data/site';
-import { PRICES, type PriceKey } from '../data/pricing';
+import { type PriceKey } from '../data/pricing';
 
 type Json = Record<string, unknown>;
 
@@ -73,7 +73,6 @@ export const faqPage = (items: { q: string; a: string }[]): Json => ({
 
 /** A Service with its offer taken from pricing.ts, never typed here. */
 export const service = (opts: { name: string; description: string; path: string; price: PriceKey; area?: string }): Json => {
-  const p = PRICES[opts.price];
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -82,17 +81,6 @@ export const service = (opts: { name: string; description: string; path: string;
     url: abs(opts.path),
     provider: { '@type': 'ProfessionalService', '@id': ID.business, name: SITE.name, url: `${SITE.url}/` },
     areaServed: opts.area ? { '@type': 'AdministrativeArea', name: opts.area } : { '@type': 'Country', name: 'Canada' },
-    offers: {
-      '@type': 'Offer',
-      priceCurrency: 'CAD',
-      price: p.amount,
-      priceSpecification: {
-        '@type': p.per ? 'UnitPriceSpecification' : 'PriceSpecification',
-        minPrice: p.amount,
-        priceCurrency: 'CAD',
-        ...(p.per ? { unitText: 'MON' } : {}),
-      },
-    },
   };
 };
 

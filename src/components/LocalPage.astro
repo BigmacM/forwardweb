@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Apply from './Apply.astro';
 import Faq from './Faq.astro';
 import { SERVICES } from '../data/services';
-import { moneyShort, TAX_NOTE } from '../data/pricing';
+import { moneyShort } from '../data/pricing';
 import { faqPage, service } from '../lib/seo';
 import { fillPrices } from '../lib/tokens.mjs';
 
@@ -62,7 +62,7 @@ const faq = Astro.props.faq.map((f) => ({ q: f.q, a: fillPrices(f.a) }));
           {SERVICES.map((s) => (
             <a href={s.page ?? `/services/#${s.id}`}><span>{s.name}</span><b>{s.lead ? 'Audit ' : ''}from {moneyShort(s.price)}</b></a>
           ))}
-          <p class="fine">{TAX_NOTE}. Fixed quote before any work starts.</p>
+          <p class="fine">Prices are before tax. Fixed quote before any work starts.</p>
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ export async function GET() {
     '',
     `> ${SITE.name} is a one-person studio in ${SITE.locality}, ${SITE.region}, run by ${SITE.founder}. I build web products and make them findable by search engines and AI assistants. ${SITE.availability}.`,
     '',
-    `Audits start ${fromPrice('audit')} CAD plus HST. Websites start ${fromPrice('websites')}. Every project starts with a fixed quote.`,
+    `Audits start ${fromPrice('audit')} plus tax. Websites start ${fromPrice('websites')}. Every project starts with a fixed quote.`,
     '',
     '## Key pages',
     '',

@@ -1,7 +1,7 @@
 ---
 import Glyph from './Glyph.astro';
 import { SERVICES } from '../data/services';
-import { moneyShort, money, TAX_NOTE } from '../data/pricing';
+import { moneyShort, money } from '../data/pricing';
 
 interface Props { note?: boolean }
 const { note = true } = Astro.props;
@@ -16,5 +16,5 @@ const { note = true } = Astro.props;
       <span class="from">{s.lead ? 'Audit from' : 'From'}<b>{moneyShort(s.price)}</b></span>
     </a>
   ))}
-  {note && <p class="fine">{TAX_NOTE}. Every project starts with a fixed quote. Care plan for built sites: {money('care')}/mo.</p>}
+  {note && <p class="fine">Prices are before tax. Every project starts with a fixed quote. Care plan for built sites: {money('care')}/mo.</p>}
 </div>

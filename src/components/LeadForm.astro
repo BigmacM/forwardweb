@@ -23,7 +23,7 @@ const audit = variant === 'audit';
     <input id={`${id}-co`} name="xq_hp_7" type="text" tabindex="-1" autocomplete="off" data-lpignore="true" data-form-type="other" />
   </div>
 
-  {audit && <p class="note">The audit is a fixed price, {fromPrice('audit')} CAD plus HST. You get a written plan whether or not we work together.</p>}
+  {audit && <p class="note">The audit is a fixed price, {fromPrice('audit')} plus tax. You get a written plan whether or not we work together.</p>}
   <p class="note score-note" data-score-note hidden></p>
 
   <div class="field">
