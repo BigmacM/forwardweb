@@ -4,8 +4,8 @@ import Base from '../../layouts/Base.astro';
 import Avatar from '../../components/Avatar.astro';
 import Cover from '../../components/Cover.astro';
 import { SITE } from '../../data/site';
-import { blogPosting } from '../../lib/seo';
-import { categorySlug, fmtDate, isoDate, publishedNotes, readMinutes } from '../../lib/notes';
+import { blogPosting, faqPage } from '../../lib/seo';
+import { categorySlug, faqFromBody, fmtDate, isoDate, publishedNotes, readMinutes } from '../../lib/notes';
 
 export async function getStaticPaths() {
   const all = await publishedNotes();
@@ -22,6 +22,7 @@ const path = `/notes/${entry.id}/`;
 const toc = headings.filter((h) => h.depth === 2);
 const modified = d.updatedAt ?? d.publishedAt;
 const mins = readMinutes(entry.body);
+const faq = faqFromBody(entry.body);
 ---
 
 <Base
@@ -35,7 +36,7 @@ const mins = readMinutes(entry.body);
   published={d.publishedAt}
   modified={modified}
   crumbs={[['Home', '/'], ['Notes', '/notes/'], [d.title, path]]}
-  jsonLd={[blogPosting({ title: d.title, description: d.description, path, published: d.publishedAt, modified, image: `/og/note-${categorySlug(d.category)}.png` })]}
+  jsonLd={[blogPosting({ title: d.title, description: d.description, path, published: d.publishedAt, modified, image: `/og/note-${categorySlug(d.category)}.png` }), ...(faq.length ? [faqPage(faq)] : [])]}
 >
   <article>
     <header class="light">
