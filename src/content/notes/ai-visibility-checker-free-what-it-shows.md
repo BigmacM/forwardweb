@@ -3,6 +3,7 @@ title: "AI visibility checkers: what a free check can and cannot tell you"
 description: "A free AI visibility check can show whether the groundwork is in place. It cannot show who an assistant actually names. What each type measures, and when to pay for more."
 publishedAt: 2026-11-08
 updatedAt: 2026-11-08
+cover: gauge
 category: Buying
 author: Maksut Ozcan
 draft: false

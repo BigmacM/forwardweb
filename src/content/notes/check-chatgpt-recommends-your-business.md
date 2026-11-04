@@ -3,6 +3,7 @@ title: "How to check whether ChatGPT recommends your business"
 description: "A twenty-minute method with no tools: ask the questions your customers ask, repeat them, log who gets named, and read what it means. By Max Ozcan."
 publishedAt: 2026-11-02
 updatedAt: 2026-11-02
+cover: dots
 category: How-to
 author: Maksut Ozcan
 draft: false

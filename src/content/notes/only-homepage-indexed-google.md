@@ -3,6 +3,7 @@ title: "Only your homepage is indexed in Google? A 30-minute diagnostic"
 description: "Google says 'crawled, currently not indexed' is common, and Mueller called a homepage-only index a general quality issue. A 30-minute check, from a week-old site."
 publishedAt: 2026-11-06
 updatedAt: 2026-11-06
+cover: tree
 category: How-to
 author: Maksut Ozcan
 draft: false

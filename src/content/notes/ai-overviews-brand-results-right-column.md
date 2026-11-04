@@ -3,6 +3,7 @@ title: "Google moved AI Overviews for brand searches to the right column. What t
 description: "On 2 November 2026 Search Engine Roundtable reported AI Overviews for brand searches moving to the right column. A 10-minute check of what Google says about your name."
 publishedAt: 2026-11-05
 updatedAt: 2026-11-05
+cover: serp
 category: News
 author: Maksut Ozcan
 draft: false

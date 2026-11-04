@@ -1,10 +1,10 @@
 ---
 import { cover } from '../lib/ill';
 
-interface Props { category: string; slug: string; tone?: 'dark' | 'light' }
-const { category, slug, tone } = Astro.props;
+interface Props { category: string; slug: string; tone?: 'dark' | 'light'; motif?: string }
+const { category, slug, tone, motif } = Astro.props;
 // Two tones alternate by category, so a feed of mixed posts has rhythm.
 const auto = category === 'How-to' || category === 'Test' ? 'dark' : 'light';
 ---
 
-<Fragment set:html={cover(category, slug, tone ?? auto)} />
+<Fragment set:html={cover(category, slug, tone ?? auto, motif)} />

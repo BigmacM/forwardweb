@@ -3,6 +3,7 @@ title: "How a small business gets recommended by ChatGPT, Gemini and Google AI O
 description: "How AI assistants pick which local businesses to name, and what I fix first: crawler access, consistent facts, direct answers, reviews, schema and measurement."
 publishedAt: 2026-11-04
 updatedAt: 2026-11-04
+cover: answer
 category: How-to
 author: Maksut Ozcan
 draft: false

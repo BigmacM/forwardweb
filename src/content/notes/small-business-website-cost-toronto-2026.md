@@ -3,6 +3,7 @@ title: "How much does a small business website cost in Toronto in 2026?"
 description: "Published Toronto and Canadian price bands for small business websites, care plans and AI visibility work, what drives the price, and where my own prices sit."
 publishedAt: 2026-11-02
 updatedAt: 2026-11-02
+cover: ruler
 category: Buying
 author: Maksut Ozcan
 draft: false

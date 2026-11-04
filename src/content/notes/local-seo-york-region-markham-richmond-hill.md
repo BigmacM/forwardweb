@@ -3,6 +3,7 @@ title: "Local SEO for a Markham or Richmond Hill business: what to fix first"
 description: "Where to start with local SEO in Markham, Richmond Hill and York Region: your Google profile, categories, reviews, consistent listings, one location page and local links."
 publishedAt: 2026-11-10
 updatedAt: 2026-11-10
+cover: pins
 category: How-to
 author: Maksut Ozcan
 draft: false

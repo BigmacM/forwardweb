@@ -1,5 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { fillPrices } from './tokens.mjs';
+import { COVER_MOTIFS } from './ill';
 
 export type Note = CollectionEntry<'notes'>;
 
@@ -17,6 +18,15 @@ export const CATEGORIES = [
 // PREVIEW_NOTES=1 includes scheduled posts, for QA builds only (never deploy that build).
 export async function publishedNotes(now = process.env.PREVIEW_NOTES ? new Date(8.64e15) : new Date()): Promise<Note[]> {
   const all = await getCollection('notes', (n) => !n.data.draft && n.data.publishedAt.getTime() <= now.getTime());
+  // Max, 2026-11-03: covers must not repeat. Fail the build on a missing, unknown or shared motif.
+  const all2 = await getCollection('notes', (n) => !n.data.draft);
+  const seen = new Map<string, string>();
+  for (const n of all2) {
+    const c = n.data.cover;
+    if (!c || !COVER_MOTIFS.includes(c)) throw new Error(`Note ${n.id} needs a cover: one of ${COVER_MOTIFS.join(', ')}`);
+    if (seen.has(c)) throw new Error(`Notes ${seen.get(c)} and ${n.id} share the cover "${c}". Add a new motif in src/lib/ill.ts.`);
+    seen.set(c, n.id);
+  }
   return all.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
 }
 

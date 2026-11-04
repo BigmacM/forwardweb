@@ -3,6 +3,7 @@ title: "Impressions but no clicks in Search Console: what to fix and what to wai
 description: "Our new site had 155 impressions and 0 clicks in its first 7 days. Why impressions without clicks usually means position, not a broken page, and what to do about it."
 publishedAt: 2026-11-09
 updatedAt: 2026-11-09
+cover: impressions
 category: How-to
 author: Maksut Ozcan
 draft: false

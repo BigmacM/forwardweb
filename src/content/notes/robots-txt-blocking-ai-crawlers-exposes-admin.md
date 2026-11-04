@@ -3,6 +3,7 @@ title: "Is your robots.txt blocking AI crawlers? The mistake that also exposes /
 description: "Naming an AI bot in robots.txt gives it its own group, and it then ignores your * rules. How that quietly re-opens paths you blocked, and how to fix it."
 publishedAt: 2026-11-02
 updatedAt: 2026-11-02
+cover: wall
 category: Test
 author: Maksut Ozcan
 draft: false

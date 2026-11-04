@@ -3,6 +3,7 @@ title: "Ontario AODA and your website: what actually applies to a small business
 description: "The AODA website rule applies at 50 or more employees. Businesses with 20 or more file a compliance report by 2026-12-31. What applies to you, and a quick self-check."
 publishedAt: 2026-11-11
 updatedAt: 2026-11-11
+cover: access
 category: Buying
 author: Maksut Ozcan
 draft: false

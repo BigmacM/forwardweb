@@ -3,6 +3,7 @@ title: "Is llms.txt worth adding to your website?"
 description: "Google says it does not endorse llms.txt and needs no AI-specific files. What the file is, what I put in mine on forwardweb.ca, and why I treat it as housekeeping."
 publishedAt: 2026-11-07
 updatedAt: 2026-11-07
+cover: textfile
 category: Test
 author: Maksut Ozcan
 draft: false

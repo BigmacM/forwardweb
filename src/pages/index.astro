@@ -164,7 +164,7 @@ const notes = (await publishedNotes()).slice(0, 3);
       <div class="ncols">
         {notes.map((n) => (
           <a href={`/notes/${n.id}/`}>
-            <Cover category={n.data.category} slug={n.id} />
+            <Cover category={n.data.category} slug={n.id} motif={n.data.cover} />
             <small>{n.data.category}, {fmtMonth(n.data.updatedAt ?? n.data.publishedAt)}</small>
             <h3>{n.data.title}</h3>
             <p>{n.data.description}</p>

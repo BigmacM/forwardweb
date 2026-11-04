@@ -9,7 +9,7 @@ const { notes } = Astro.props;
 <div class="nlist">
   {notes.map((n) => (
     <a href={`/notes/${n.id}/`}>
-      <div class="nl-cover"><Cover category={n.data.category} slug={n.id} /></div>
+      <div class="nl-cover"><Cover category={n.data.category} slug={n.id} motif={n.data.cover} /></div>
       <div class="nl-body">
         <small>{n.data.category}, {fmtDate(n.data.updatedAt ?? n.data.publishedAt)}, {readMinutes(n.body)} min read</small>
         <h2>{n.data.title}</h2>

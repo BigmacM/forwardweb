@@ -18,6 +18,8 @@ const notes = defineCollection({
     standfirst: z.string().optional(),
     /** Shorter text for the browser tab and search result when the headline is long. */
     seoTitle: z.string().optional(),
+    /** Cover illustration, one of COVER_MOTIFS in src/lib/ill.ts. Give each note its own. */
+    cover: z.string().optional(),
   }),
 });
 
