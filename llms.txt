@@ -23,6 +23,7 @@ Audits start from $1,500 plus tax. Websites start from $5,000. Every project sta
 
 ## Notes
 
+- [How a small business gets recommended by ChatGPT, Gemini and Google AI Overviews in 2026](https://forwardweb.ca/notes/get-recommended-by-chatgpt-gemini-ai-overviews/): How AI assistants pick which local businesses to name, and what I fix first: crawler access, consistent facts, direct answers, reviews, schema and measurement.
 - [How to check whether ChatGPT recommends your business](https://forwardweb.ca/notes/check-chatgpt-recommends-your-business/): A twenty-minute method with no tools: ask the questions your customers ask, repeat them, log who gets named, and read what it means. By Max Ozcan.
 - [Is your robots.txt blocking AI crawlers? The mistake that also exposes /admin](https://forwardweb.ca/notes/robots-txt-blocking-ai-crawlers-exposes-admin/): Naming an AI bot in robots.txt gives it its own group, and it then ignores your * rules. How that quietly re-opens paths you blocked, and how to fix it.
 - [How much does a small business website cost in Toronto in 2026?](https://forwardweb.ca/notes/small-business-website-cost-toronto-2026/): Published Toronto and Canadian price bands for small business websites, care plans and AI visibility work, what drives the price, and where my own prices sit.
