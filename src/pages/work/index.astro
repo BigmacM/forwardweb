@@ -3,12 +3,14 @@ import Base from '../../layouts/Base.astro';
 import Shot from '../../components/Shot.astro';
 import ToolThumb from '../../components/ToolThumb.astro';
 import { CAPTURE_DATE } from '../../data/work';
+import { collectionPage } from '../../lib/seo';
 ---
 
 <Base
   tone="light"
   path="/work/"
   title="Work: a case study, apps and free tools | ForwardWeb"
+  jsonLd={[collectionPage({ name: 'Work', description: 'A case study, apps in development and free tools.', path: '/work/', items: [{ name: 'Case study: a day-tour business', path: '/work/tour-operator/' }, { name: 'In development', path: '/apps/' }, { name: 'Free tools', path: '/tools/' }] })]}
   description="Three kinds of proof: a site I built and grew from almost nothing, apps I am building now, and free tools I wrote for my own work."
   ogImage="/og/work.png"
   crumbs={[['Home', '/'], ['Work', '/work/']]}

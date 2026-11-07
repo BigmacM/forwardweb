@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import LeadForm from '../components/LeadForm.astro';
 import { SITE } from '../data/site';
 import { fromPrice } from '../data/pricing';
+import { contactPage } from '../lib/seo';
 
 const path = '/apply/';
 ---
@@ -13,6 +14,7 @@ const path = '/apply/';
   title="Request the audit or start a project | ForwardWeb"
   description="Request a fixed-price AI visibility audit or tell me about a project. I read every request and reply within two working days with a yes, a no, or a better idea."
   crumbs={[['Home', '/'], ['Apply', path]]}
+  jsonLd={[contactPage({ name: 'Request the audit or start a project', description: 'Request a fixed-price AI visibility audit or tell me about a project.', path })]}
 >
   <section class="light chead">
     <div class="wrap">

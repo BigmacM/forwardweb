@@ -36,7 +36,7 @@ const faq = faqFromBody(entry.body);
   published={d.publishedAt}
   modified={modified}
   crumbs={[['Home', '/'], ['Notes', '/notes/'], [d.title, path]]}
-  jsonLd={[blogPosting({ title: d.title, description: d.description, path, published: d.publishedAt, modified, image: `/og/note-${categorySlug(d.category)}.png` }), ...(faq.length ? [faqPage(faq)] : [])]}
+  jsonLd={[blogPosting({ title: d.title, description: d.description, path, published: d.publishedAt, modified, image: `/og/note-${categorySlug(d.category)}.png`, section: d.category, words: (entry.body ?? '').split(/s+/).filter(Boolean).length }), ...(faq.length ? [faqPage(faq)] : [])]}
 >
   <article>
     <header class="light">

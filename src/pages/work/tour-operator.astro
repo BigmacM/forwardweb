@@ -4,6 +4,7 @@ import CtaBand from '../../components/CtaBand.astro';
 import Ill from '../../components/Ill.astro';
 import Shot from '../../components/Shot.astro';
 import { CAPTURE_DATE } from '../../data/work';
+import { caseStudy } from '../../lib/seo';
 
 const path = '/work/tour-operator/';
 ---
@@ -14,6 +15,7 @@ const path = '/work/tour-operator/';
   title="Case study: from no traffic to top bookings | ForwardWeb"
   description="How I took a day-tour business site from almost no traffic to more than twenty times the organic visits, with AI assistants becoming a top source of bookings."
   ogImage="/og/case.png"
+  jsonLd={[caseStudy({ title: 'From almost no traffic to a top source of bookings, found by Google and by AI', description: 'How I took a day-tour business site from almost no traffic to more than twenty times the organic visits, with AI assistants becoming a top source of bookings.', path, published: '2026-11-02', image: '/og/case.png', about: 'Web design, SEO and AI visibility for a day-tour business' })]}
   ogAlt="Case study: from almost no traffic to a top source of bookings"
   crumbs={[['Home', '/'], ['Work', '/work/'], ['Case study', path]]}
 >

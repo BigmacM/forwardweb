@@ -30,7 +30,7 @@ const path = `/tools/${t.slug}/`;
   ogImage={`/og/tool-${t.slug}.png`}
   ogAlt={`${t.name}: ${t.h1}`}
   crumbs={[['Home', '/'], ['Free tools', '/tools/'], [t.name, path]]}
-  jsonLd={[webApplication({ name: t.name, description: t.description, path }), faqPage(t.faq)]}
+  jsonLd={[webApplication({ name: t.name, description: t.description, path, image: `/og/tool-${t.slug}.png` }), faqPage(t.faq)]}
 >
   <section class="light chead">
     <div class="wrap">
