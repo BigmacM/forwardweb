@@ -23,6 +23,7 @@ Audits start from $1,500 plus tax. Websites start from $5,000. Every project sta
 
 ## Notes
 
+- [Local SEO for a Markham or Richmond Hill business: what to fix first](https://forwardweb.ca/notes/local-seo-york-region-markham-richmond-hill/): Where to start with local SEO in Markham, Richmond Hill and York Region: your Google profile, categories, reviews, consistent listings, one location page and local links.
 - [Impressions but no clicks in Search Console: what to fix and what to wait out](https://forwardweb.ca/notes/impressions-but-no-clicks/): Our new site had 155 impressions and 0 clicks in its first 7 days. Why impressions without clicks usually means position, not a broken page, and what to do about it.
 - [AI visibility checkers: what a free check can and cannot tell you](https://forwardweb.ca/notes/ai-visibility-checker-free-what-it-shows/): A free AI visibility check can show whether the groundwork is in place. It cannot show who an assistant actually names. What each type measures, and when to pay for more.
 - [Is llms.txt worth adding to your website?](https://forwardweb.ca/notes/llms-txt-worth-adding/): Google says it does not endorse llms.txt and needs no AI-specific files. What the file is, what I put in mine on forwardweb.ca, and why I treat it as housekeeping.
